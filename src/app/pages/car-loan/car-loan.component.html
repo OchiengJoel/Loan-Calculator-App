@@ -1,1 +1,19 @@
-<p>car-loan works!</p>
+<h2>Car Loan Calculator</h2>
+<form (ngSubmit)="calculateCarLoan()">
+  <mat-form-field>
+    <mat-label>Principal</mat-label>
+    <input matInput [(ngModel)]="principal" name="principal" type="number" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Annual Interest Rate (%)</mat-label>
+    <input matInput [(ngModel)]="annualRate" name="rate" type="number" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Term (Years)</mat-label>
+    <input matInput [(ngModel)]="term" name="term" type="number" required>
+  </mat-form-field>
+  <button mat-raised-button type="submit">Calculate</button>
+</form>
+<div *ngIf="monthlyPayment">
+  <h3>Monthly Payment: {{ monthlyPayment | currency }}</h3>
+</div>

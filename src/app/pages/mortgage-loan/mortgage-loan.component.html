@@ -1,1 +1,111 @@
-<p>mortgage-loan works!</p>
+<h2>Mortgage Loan Calculator</h2>
+<form (ngSubmit)="calculateMortgage()">
+  <mat-form-field>
+    <mat-label>Principal</mat-label>
+    <input matInput [(ngModel)]="principal" name="principal" type="number" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Annual Interest Rate (%)</mat-label>
+    <input matInput [(ngModel)]="annualRate" name="rate" type="number" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Term (Years)</mat-label>
+    <input matInput [(ngModel)]="term" name="term" type="number" required>
+  </mat-form-field>
+  <button mat-raised-button type="submit">Calculate</button>
+</form>
+<div *ngIf="monthlyPayment">
+  <h3>Monthly Payment: {{ monthlyPayment | currency }}</h3>
+</div>
+
+<!-- <div class="loan-details">
+  <h2>{{ loanType | titlecase }} Loan Details</h2>
+  <form>
+    <div class="form-row">
+      <div>
+        <label for="loanType">Choose your financing type:</label>
+        <select id="loanType">
+          <option value="debt">Debt Financing</option>
+          <option value="equity">Equity Financing</option>
+        </select>
+      </div>
+      <div>
+        <label for="bankService">Choose your preferred bank service:</label>
+        <select id="bankService">
+          <option value="individual">Individual Banking</option>
+          <option value="business">Business Banking</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label for="loanAmount">Your loan amount:</label>
+      <input type="number" id="loanAmount">
+    </div>
+    <div>
+      <label>Loan duration:</label>
+      <div>
+        <input type="radio" id="12months" name="duration" value="12">
+        <label for="12months">12 months</label>
+        <input type="radio" id="18months" name="duration" value="18">
+        <label for="18months">18 months</label>
+        <input type="radio" id="24months" name="duration" value="24">
+        <label for="24months">24 months</label>
+        <input type="radio" id="36months" name="duration" value="36">
+        <label for="36months">36 months</label>
+        <input type="radio" id="48months" name="duration" value="48">
+        <label for="48months">48 months</label>
+      </div>
+    </div>
+    <button type="button" (click)="onSubmit()">Next</button>
+  </form>
+</div> -->
+
+
+  <!-- <mat-card>
+    <mat-card-header>
+      <h1 mat-dialog-title></h1>
+    </mat-card-header>
+  </mat-card>
+  
+  <form (ngSubmit)="onSubmit()">
+  
+    <mat-card-content>
+  
+      <mat-form-field class="mat-50">
+        <mat-label>Item Type</mat-label>
+        <mat-select formControlName="itemType">
+          <mat-option *ngFor="let type of loanType" [value]="type">{{ type }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="loanItemForm.controls.itemType.hasError('required')">
+          Item type is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field class="mat-50">
+        <mat-label>Item Name</mat-label>
+        <input matInput formControlName="itemName">
+        <mat-error *ngIf="loanItemForm.controls.itemName.hasError('required')">
+          Item name is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Item Description</mat-label>
+        <textarea matInput formControlName="itemDescription"></textarea>
+        <mat-error *ngIf="loanItemForm.controls.itemDescription.hasError('required')">
+          Item description is required
+        </mat-error>
+      </mat-form-field>
+  
+    </mat-card-content>
+  
+    <mat-card-footer style="margin:2%;text-align: right;">
+      
+      <div style="margin:2%;text-align: right;">
+        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">{{ 'Calculate' }}</button>
+      </div>
+    </mat-card-footer>
+  </form>
+  </div> -->
+  

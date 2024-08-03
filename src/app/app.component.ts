@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Loan';
+
+  selectedCard: string='';
+
+  selectCard(cardType: string) {
+    this.selectedCard = cardType;
+  }
 }
