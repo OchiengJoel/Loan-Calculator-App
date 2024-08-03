@@ -6,54 +6,6 @@
   border-radius: 8px;
 }
 
-.loan-type-selection {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.loan-type-selection button {
-  padding: 10px 15px;
-  border: 1px solid #007bff;
-  background-color: white;
-  color: #007bff;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-  margin: 0 5px;
-}
-
-.loan-type-selection button.active {
-  background-color: #007bff;
-  color: white;
-}
-
-.stepper {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.step {
-  padding: 10px;
-  border-bottom: 2px solid #ccc;
-  width: 100%;
-  text-align: center;
-}
-
-.step.active {
-  border-bottom: 2px solid #007bff;
-  font-weight: bold;
-}
-
-.step-content {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
 .form-row {
   display: flex;
   gap: 20px;
@@ -83,14 +35,6 @@ input[type="radio"] {
   margin-right: 5px;
 }
 
-button {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
 
 mat-card{
@@ -110,4 +54,22 @@ mat-card{
 
 button{
   margin: 2px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: right;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
 }

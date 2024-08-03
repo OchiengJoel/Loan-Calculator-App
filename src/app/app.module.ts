@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
+import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,7 +36,9 @@ import { BusinessLoanComponent } from './pages/business-loan/business-loan.compo
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    MatCheckboxModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
