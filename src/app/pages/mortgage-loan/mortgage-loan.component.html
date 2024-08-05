@@ -78,6 +78,8 @@
 
 <div *ngIf="monthlyPayment">
   <h3>Monthly Payment: {{ monthlyPayment | currency }}</h3>
+  <h4>Total Repayment Amount: {{ totalRepayment | currency }}</h4> <!-- New total repayment display -->
+  <h4>Cumulative Interest: {{cumulativeInterest | currency}}</h4>
 </div>
 
 <!-- Table for repayment schedule -->
@@ -119,5 +121,14 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+
   </mat-card-content>
+
+  <mat-card-footer style="margin:2%;text-align: right;">
+    <div style="margin:2%;text-align: right;">      
+      <button mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
+      <button mat-raised-button color="primary" (click)="exportToPDF()">Export to PDF</button>
+    </div>
+  </mat-card-footer>
 </div>

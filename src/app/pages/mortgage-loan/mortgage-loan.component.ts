@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+
 
 
 @Component({
@@ -8,19 +11,13 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./mortgage-loan.component.css']
 })
 export class MortgageLoanComponent {
-  loanType: any;
-  loanItemForm: any;
-  dialogRef: any;
- //loanForm: FormGroup<any>;
-  onSubmit() {
-    throw new Error('Method not implemented.');
-  }
-
 
   principal!: number;
   annualRate!: number;
   term!: number;
-  monthlyPayment!: number;
+  monthlyPayment!: number;  
+  totalRepayment: number = 0;
+  cumulativeInterest: number = 0;
   showSchedule: boolean = false;
   repaymentSchedule: any[] = [];
   displayedColumns: string[] = ['month', 'interest', 'paymentPrincipal', 'total', 'runningBalance'];
@@ -54,7 +51,10 @@ export class MortgageLoanComponent {
         this.calculateReducingBalanceEMI(); // Default to reducing balance EMI
         break;
     }
-    
+
+    this.totalRepayment = this.calculateTotalRepayment();
+    this.cumulativeInterest = this.totalRepayment - this.principal;
+
     if (this.showSchedule) {
       this.repaymentSchedule = this.generateRepaymentSchedule();
     } else {
@@ -73,15 +73,15 @@ export class MortgageLoanComponent {
 
   calculateFlatInterestPrincipal() {
     const r = this.annualRate / 100 / 12;
-     //const n = this.term * 12; //Use this if calculating your figures in years
-     const n = this.term //Use this if calculating your figures in months
+    //const n = this.term * 12; //Use this if calculating your figures in years
+    const n = this.term //Use this if calculating your figures in months
     this.monthlyPayment = (this.principal / n) + (this.principal * r);
   }
 
   calculateReducingBalancePrincipal() {
     const r = this.annualRate / 100 / 12;
-     //const n = this.term * 12; //Use this if calculating your figures in years
-     const n = this.term //Use this if calculating your figures in months
+    //const n = this.term * 12; //Use this if calculating your figures in years
+    const n = this.term //Use this if calculating your figures in months
     let totalPayment = 0;
     for (let month = 1; month <= n; month++) {
       const interest = this.principal * r;
@@ -94,16 +94,22 @@ export class MortgageLoanComponent {
 
   calculateFlatInterestEMI() {
     const r = this.annualRate / 100 / 12;
-     //const n = this.term * 12; //Use this if calculating your figures in years
-     const n = this.term //Use this if calculating your figures in months
+    //const n = this.term * 12; //Use this if calculating your figures in years
+    const n = this.term //Use this if calculating your figures in months
     this.monthlyPayment = (this.principal + (this.principal * r * n)) / n;
   }
 
   calculateFlatInterestOnPrincipal() {
     const r = this.annualRate / 100 / 12;
-     //const n = this.term * 12; //Use this if calculating your figures in years
-     const n = this.term //Use this if calculating your figures in months
+    //const n = this.term * 12; //Use this if calculating your figures in years
+    const n = this.term //Use this if calculating your figures in months
     this.monthlyPayment = (this.principal + (this.principal * r)) / n;
+  }
+
+  calculateTotalRepayment() {
+    //const n = this.term * 12; //Use this if calculating your figures in years
+    const n = this.term //Use this if calculating your figures in months
+    return this.monthlyPayment * n;
   }
 
   generateRepaymentSchedule() {
@@ -164,6 +170,32 @@ export class MortgageLoanComponent {
     }
 
     return schedule;
+  }
+
+  
+
+  exportToExcel() {
+    const ws = XLSX.utils.json_to_sheet(this.repaymentSchedule, { header: ['month', 'interest', 'paymentPrincipal', 'total', 'runningBalance'] });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Schedule');
+    XLSX.writeFile(wb, 'RepaymentSchedule.xlsx');
+  }
+
+  exportToPDF() {
+    const doc = new jsPDF();
+    autoTable(doc, {
+      head: [['Month', 'Interest', 'Payment Principal', 'Total', 'Running Balance']],
+      body: this.repaymentSchedule.map(item => [
+        item.month,
+        item.interest.toFixed(2),
+        item.paymentPrincipal.toFixed(2),
+        item.total.toFixed(2),
+        item.runningBalance.toFixed(2)
+      ]),
+      margin: { top: 20 },
+      startY: 30
+    });
+    doc.save('RepaymentSchedule.pdf');
   }
 
 
