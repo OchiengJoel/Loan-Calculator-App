@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
 import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { MortgageLoanComponent } from './pages/mortgage-loan/mortgage-loan.compo
 import { CarLoanComponent } from './pages/car-loan/car-loan.component';
 import { StudentLoanComponent } from './pages/student-loan/student-loan.component';
 import { BusinessLoanComponent } from './pages/business-loan/business-loan.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { BusinessLoanComponent } from './pages/business-loan/business-loan.compo
     MortgageLoanComponent,
     CarLoanComponent,
     StudentLoanComponent,
-    BusinessLoanComponent
+    BusinessLoanComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { BusinessLoanComponent } from './pages/business-loan/business-loan.compo
     MatCheckboxModule,
     MatTableModule, 
     MatFormFieldModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

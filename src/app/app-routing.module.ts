@@ -5,15 +5,20 @@ import { CarLoanComponent } from './pages/car-loan/car-loan.component';
 import { MortgageLoanComponent } from './pages/mortgage-loan/mortgage-loan.component';
 import { BusinessLoanComponent } from './pages/business-loan/business-loan.component';
 import { StudentLoanComponent } from './pages/student-loan/student-loan.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 const routes: Routes = [
 
   { 
-    path: '', redirectTo: '/home', pathMatch: 'full' 
+    path: '', redirectTo: '/lp', pathMatch: 'full' 
   },
 
   { 
     path: 'home', component: AppComponent 
+  },
+
+  {
+    path: 'lp', component: LandingPageComponent
   },
 
   {
