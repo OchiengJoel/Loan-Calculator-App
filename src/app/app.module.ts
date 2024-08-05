@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card'
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
 import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
 
@@ -31,14 +32,15 @@ import { BusinessLoanComponent } from './pages/business-loan/business-loan.compo
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
+    MatCardModule,    
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule, 
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
