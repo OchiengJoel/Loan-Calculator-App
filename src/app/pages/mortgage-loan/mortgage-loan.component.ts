@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
@@ -11,6 +12,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./mortgage-loan.component.css']
 })
 export class MortgageLoanComponent {
+  mortgageForm: FormGroup;
 
   principal!: number;
   annualRate!: number;
@@ -30,7 +32,28 @@ export class MortgageLoanComponent {
     { label: 'Flat Interest (On Principal Amount)', value: 'flatInterestOnPrincipal' }
   ];
 
+  constructor(private fb: FormBuilder) {
+    this.mortgageForm = this.fb.group({
+      principal: [0, [Validators.required, Validators.min(0)]],
+      annualRate: [0, [Validators.required, Validators.min(0)]],
+      term: [0, [Validators.required, Validators.min(1)]],
+      method: ['reducingBalanceEMI', Validators.required],
+      showSchedule: [false]
+    });
+  }
+
   calculateMortgage() {
+    if (this.mortgageForm.invalid) {
+      return;
+    }
+
+    const { principal, annualRate, term, method, showSchedule } = this.mortgageForm.value;
+    this.principal = principal;
+    this.annualRate = annualRate;
+    this.term = term;
+    this.selectedMethod = method;
+    this.showSchedule = showSchedule;
+
     switch (this.selectedMethod) {
       case 'reducingBalanceEMI':
         this.calculateReducingBalanceEMI();
@@ -66,22 +89,20 @@ export class MortgageLoanComponent {
 
   calculateReducingBalanceEMI() {
     const r = this.annualRate / 100 / 12;
-    //const n = this.term * 12; //Use this if calculating your figures in years
-    const n = this.term //Use this if calculating your figures in months
+    //const n = this.term * 12; // Use this if calculating your figures in years
+    const n = this.term; // Use this if calculating your figures in months
     this.monthlyPayment = (this.principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }
 
   calculateFlatInterestPrincipal() {
     const r = this.annualRate / 100 / 12;
-    //const n = this.term * 12; //Use this if calculating your figures in years
-    const n = this.term //Use this if calculating your figures in months
+    const n = this.term; // Use this if calculating your figures in months
     this.monthlyPayment = (this.principal / n) + (this.principal * r);
   }
 
   calculateReducingBalancePrincipal() {
     const r = this.annualRate / 100 / 12;
-    //const n = this.term * 12; //Use this if calculating your figures in years
-    const n = this.term //Use this if calculating your figures in months
+    const n = this.term; // Use this if calculating your figures in months
     let totalPayment = 0;
     for (let month = 1; month <= n; month++) {
       const interest = this.principal * r;
@@ -94,21 +115,18 @@ export class MortgageLoanComponent {
 
   calculateFlatInterestEMI() {
     const r = this.annualRate / 100 / 12;
-    //const n = this.term * 12; //Use this if calculating your figures in years
-    const n = this.term //Use this if calculating your figures in months
+    const n = this.term; // Use this if calculating your figures in months
     this.monthlyPayment = (this.principal + (this.principal * r * n)) / n;
   }
 
   calculateFlatInterestOnPrincipal() {
     const r = this.annualRate / 100 / 12;
-    //const n = this.term * 12; //Use this if calculating your figures in years
-    const n = this.term //Use this if calculating your figures in months
+    const n = this.term; // Use this if calculating your figures in months
     this.monthlyPayment = (this.principal + (this.principal * r)) / n;
   }
 
   calculateTotalRepayment() {
-    //const n = this.term * 12; //Use this if calculating your figures in years
-    const n = this.term //Use this if calculating your figures in months
+    const n = this.term; // Use this if calculating your figures in months
     return this.monthlyPayment * n;
   }
 
@@ -132,12 +150,12 @@ export class MortgageLoanComponent {
           break;
         case 'flatInterestPrincipal':
           interest = this.principal * r;
-          principalPayment = this.principal / (this.term * 12);
+          principalPayment = this.principal / this.term;
           totalPayment = principalPayment + interest;
           break;
         case 'reducingBalancePrincipal':
           interest = balance * r;
-          principalPayment = this.principal / (this.term * 12);
+          principalPayment = this.principal / this.term;
           totalPayment = interest + principalPayment;
           balance -= principalPayment;
           break;
@@ -148,7 +166,7 @@ export class MortgageLoanComponent {
           break;
         case 'flatInterestOnPrincipal':
           interest = this.principal * r;
-          principalPayment = (this.principal + interest) / (this.term * 12);
+          principalPayment = (this.principal + interest) / this.term;
           totalPayment = principalPayment + interest;
           break;
         default:
@@ -171,8 +189,6 @@ export class MortgageLoanComponent {
 
     return schedule;
   }
-
-  
 
   exportToExcel() {
     const ws = XLSX.utils.json_to_sheet(this.repaymentSchedule, { header: ['month', 'interest', 'paymentPrincipal', 'total', 'runningBalance'] });
@@ -197,49 +213,7 @@ export class MortgageLoanComponent {
     });
     doc.save('RepaymentSchedule.pdf');
   }
-
-
-  // calculateMortgage() {
-  //   const r = this.annualRate / 100 / 12;
-  //   //const n = this.term * 12 //Use this if calculating your figures in years
-  //   const n = this.term //Use this if calculating your figures in months
-  //   this.monthlyPayment = (this.principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-
-  //   //Generate repayment schedule if checkbox is ticked
-  //   if (this.showSchedule) {
-  //     this.repaymentSchedule = this.generateRepaymentSchedule();
-  //   } else {
-  //     this.repaymentSchedule = [];
-  //   }
-  // }
-  // generateRepaymentSchedule() {
-
-  //   let schedule = [];
-  //   let balance = this.principal;
-  //   let month = 1;
-  //   const r = this.annualRate / 100 / 12;
-
-  //   while (balance > 0) {
-  //     let interest = balance * r;
-  //     let principalPayment = this.monthlyPayment - interest;
-  //     if (balance < this.monthlyPayment) {
-  //       this.monthlyPayment = balance + interest; // Adjust final payment if needed
-  //       principalPayment = this.monthlyPayment - interest;
-  //     }
-  //     let totalPayment = interest + principalPayment;
-  //     balance -= principalPayment;
-
-  //     schedule.push({
-  //       month: month++,
-  //       interest: interest,
-  //       paymentPrincipal: principalPayment,
-  //       total: totalPayment,
-  //       runningBalance: Math.max(balance, 0) // Avoid negative balance
-  //     });
-  //   }
-
-  //   return schedule;
-  // }
-
-
 }
+
+
+

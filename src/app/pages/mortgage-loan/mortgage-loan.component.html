@@ -4,68 +4,51 @@
   </mat-card-header>
 </mat-card>
 
-<!-- <form class="example-form" [formGroup]="loanItemForm" (ngSubmit)="calculateMortgage()">
-
+<form [formGroup]="mortgageForm" (ngSubmit)="calculateMortgage()">
   <mat-card-content>
-
     <mat-form-field class="mat-50">
       <mat-label>Principal</mat-label>
-      <input matInput [(ngModel)]="principal" name="principal" type="number" required>
-    </mat-form-field>
+      <input matInput formControlName="principal" type="number" required>
+      <mat-error *ngIf="mortgageForm.get('principal')?.hasError('required')">
+        Principal is required
+      </mat-error>
+      <mat-error *ngIf="mortgageForm.get('principal')?.hasError('min')">
+        Principal must be a positive number
+      </mat-error>
+    </mat-form-field>    
 
     <mat-form-field class="mat-50">
       <mat-label>Annual Interest Rate (%)</mat-label>
-      <input matInput [(ngModel)]="annualRate" name="rate" type="number" required>
+      <input matInput formControlName="annualRate" type="number" required>
+      <mat-error *ngIf="mortgageForm.get('annualRate')?.hasError('required')">
+        Annual Interest Rate is required
+      </mat-error>
+      <mat-error *ngIf="mortgageForm.get('annualRate')?.hasError('min')">
+        Annual Interest Rate must be a positive number
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="mat-50">
       <mat-label>Term (Months)</mat-label>
-      <input matInput [(ngModel)]="term" name="term" type="number" required>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-checkbox [(ngModel)]="showSchedule" name="showSchedule">Show Repayment Schedule</mat-checkbox>
-    </mat-form-field>
-
-  </mat-card-content>
-
-  <mat-card-footer style="margin:2%;text-align: right;">
-    <div style="margin:2%;text-align: right;">
-      <button mat-raised-button type="submit">Calculate</button>
-    </div>
-  </mat-card-footer>
-
-</form> -->
-
-
-<form (ngSubmit)="calculateMortgage()">
-  <mat-card-content>
-    <mat-form-field class="mat-50">
-      <mat-label>Principal</mat-label>
-      <input matInput [(ngModel)]="principal" name="principal" type="number" required>
-    </mat-form-field>
-
-    <mat-form-field class="mat-50">
-      <mat-label>Annual Interest Rate (%)</mat-label>
-      <input matInput [(ngModel)]="annualRate" name="rate" type="number" required>
-    </mat-form-field>
-
-    <mat-form-field class="mat-50">
-      <mat-label>Term (Months)</mat-label>
-      <input matInput [(ngModel)]="term" name="term" type="number" required>
+      <input matInput formControlName="term" type="number" required>
+      <mat-error *ngIf="mortgageForm.get('term')?.hasError('required')">
+        Term is required
+      </mat-error>
+      <mat-error *ngIf="mortgageForm.get('term')?.hasError('min')">
+        Term must be at least 1 month
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="mat-50">
       <mat-label>Interest & Amortization Method</mat-label>
-      <mat-select [(ngModel)]="selectedMethod" name="method">
+      <mat-select formControlName="method">
         <mat-option *ngFor="let method of methods" [value]="method.value">
           {{ method.label }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-
-    <mat-checkbox [(ngModel)]="showSchedule" name="showSchedule">Show Repayment Schedule</mat-checkbox>
+    <mat-checkbox formControlName="showSchedule">Show Repayment Schedule</mat-checkbox>
 
   </mat-card-content>
 
@@ -78,11 +61,10 @@
 
 <div *ngIf="monthlyPayment">
   <h3>Monthly Payment: {{ monthlyPayment | currency }}</h3>
-  <h4>Total Repayment Amount: {{ totalRepayment | currency }}</h4> <!-- New total repayment display -->
-  <h4>Cumulative Interest: {{cumulativeInterest | currency}}</h4>
+  <h4>Total Repayment Amount: {{ totalRepayment | currency }}</h4>
+  <h4>Cumulative Interest: {{ cumulativeInterest | currency }}</h4>
 </div>
 
-<!-- Table for repayment schedule -->
 <div *ngIf="showSchedule && repaymentSchedule.length > 0">
   <h3>Repayment Schedule</h3>
   <mat-card-content>
@@ -121,8 +103,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-
   </mat-card-content>
 
   <mat-card-footer style="margin:2%;text-align: right;">
