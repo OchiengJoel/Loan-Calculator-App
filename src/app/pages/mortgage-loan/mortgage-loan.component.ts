@@ -3,8 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
-
-
+import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 @Component({
   selector: 'app-mortgage-loan',
@@ -13,6 +12,7 @@ import * as XLSX from 'xlsx';
 })
 export class MortgageLoanComponent {
   mortgageForm: FormGroup;
+  emailForm: FormGroup;
 
   principal!: number;
   annualRate!: number;
@@ -21,6 +21,7 @@ export class MortgageLoanComponent {
   totalRepayment: number = 0;
   cumulativeInterest: number = 0;
   showSchedule: boolean = false;
+  emailFormVisible: boolean = false;
   repaymentSchedule: any[] = [];
   displayedColumns: string[] = ['month', 'interest', 'paymentPrincipal', 'total', 'runningBalance'];
   selectedMethod: string = 'reducingBalanceEMI'; // Default method
@@ -39,6 +40,10 @@ export class MortgageLoanComponent {
       term: [0, [Validators.required, Validators.min(1)]],
       method: ['reducingBalanceEMI', Validators.required],
       showSchedule: [false]
+    });
+
+    this.emailForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
@@ -85,24 +90,21 @@ export class MortgageLoanComponent {
     }
   }
 
-  // Calculation methods
-
   calculateReducingBalanceEMI() {
     const r = this.annualRate / 100 / 12;
-    //const n = this.term * 12; // Use this if calculating your figures in years
-    const n = this.term; // Use this if calculating your figures in months
+    const n = this.term;
     this.monthlyPayment = (this.principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }
 
   calculateFlatInterestPrincipal() {
     const r = this.annualRate / 100 / 12;
-    const n = this.term; // Use this if calculating your figures in months
+    const n = this.term;
     this.monthlyPayment = (this.principal / n) + (this.principal * r);
   }
 
   calculateReducingBalancePrincipal() {
     const r = this.annualRate / 100 / 12;
-    const n = this.term; // Use this if calculating your figures in months
+    const n = this.term;
     let totalPayment = 0;
     for (let month = 1; month <= n; month++) {
       const interest = this.principal * r;
@@ -115,18 +117,18 @@ export class MortgageLoanComponent {
 
   calculateFlatInterestEMI() {
     const r = this.annualRate / 100 / 12;
-    const n = this.term; // Use this if calculating your figures in months
+    const n = this.term;
     this.monthlyPayment = (this.principal + (this.principal * r * n)) / n;
   }
 
   calculateFlatInterestOnPrincipal() {
     const r = this.annualRate / 100 / 12;
-    const n = this.term; // Use this if calculating your figures in months
+    const n = this.term;
     this.monthlyPayment = (this.principal + (this.principal * r)) / n;
   }
 
   calculateTotalRepayment() {
-    const n = this.term; // Use this if calculating your figures in months
+    const n = this.term;
     return this.monthlyPayment * n;
   }
 
@@ -213,7 +215,29 @@ export class MortgageLoanComponent {
     });
     doc.save('RepaymentSchedule.pdf');
   }
-}
 
+  sendEmail() {
+    if (this.emailForm.invalid) {
+      return;
+    }
+
+    const email = this.emailForm.get('email')?.value;
+
+    const templateParams = {
+      to_email: email,
+      subject: 'Repayment Schedule',
+      message: 'Please find the attached repayment schedule.'
+    };
+
+    emailjs.send('service_tnmey0f', 'template_6bedl2n', templateParams, 'ypYUpgr1ICE-Dxnoe')
+      .then((response: EmailJSResponseStatus) => {
+        console.log('Email sent successfully', response);
+        alert(`Repayment schedule sent to ${email}`);
+      })
+      .catch((error) => {
+        console.error('Error sending email', error);
+        alert('Error sending email');
+      });
+  }}
 
 

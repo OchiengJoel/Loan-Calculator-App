@@ -109,6 +109,28 @@
     <div style="margin:2%;text-align: right;">      
       <button mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
       <button mat-raised-button color="primary" (click)="exportToPDF()">Export to PDF</button>
+      <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button>
     </div>
   </mat-card-footer>
+</div>
+
+<div *ngIf="emailFormVisible">
+  <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+    <mat-form-field class="mat-100">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" required>
+      <mat-error *ngIf="emailForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="emailForm.get('email')?.hasError('email')">
+        Invalid email address
+      </mat-error>
+    </mat-form-field>
+
+    <mat-card-footer style="margin:2%;text-align: right;">
+      <div style="margin:2%;text-align: right;">
+        <button mat-raised-button type="submit" color="primary">Send</button>
+      </div>
+    </mat-card-footer>
+  </form>
 </div>
