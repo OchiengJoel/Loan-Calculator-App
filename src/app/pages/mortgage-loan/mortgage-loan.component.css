@@ -26,6 +26,14 @@ button {
 }
 
 
+.table-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto;  /* Adds vertical scroll bar if content exceeds max height */
+  border: 1px solid #ddd; /* Optional: Adds a border around the table */
+  border-radius: 4px; /* Optional: Rounds the corners */
+  margin-top: 16px; /* Optional: Adds space above the table */
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

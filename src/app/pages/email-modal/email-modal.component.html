@@ -1,0 +1,20 @@
+<mat-dialog-content>
+    <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+      <mat-form-field class="mat-100">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+        <mat-error *ngIf="emailForm.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="emailForm.get('email')?.hasError('email')">
+          Invalid email address
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-dialog-actions>
+        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-raised-button type="submit" color="primary">Send</button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+  

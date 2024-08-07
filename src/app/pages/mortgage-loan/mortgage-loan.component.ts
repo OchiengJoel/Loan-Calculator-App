@@ -4,6 +4,8 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
+import { EmailModalComponent } from '../email-modal/email-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mortgage-loan',
@@ -12,7 +14,7 @@ import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 })
 export class MortgageLoanComponent {
   mortgageForm: FormGroup;
-  emailForm: FormGroup;
+  //emailForm: FormGroup;
 
   principal!: number;
   annualRate!: number;
@@ -33,7 +35,12 @@ export class MortgageLoanComponent {
     { label: 'Flat Interest (On Principal Amount)', value: 'flatInterestOnPrincipal' }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+
+    private fb: FormBuilder,
+    private dialog: MatDialog
+
+  ) {
     this.mortgageForm = this.fb.group({
       principal: [0, [Validators.required, Validators.min(0)]],
       annualRate: [0, [Validators.required, Validators.min(0)]],
@@ -42,9 +49,9 @@ export class MortgageLoanComponent {
       showSchedule: [false]
     });
 
-    this.emailForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
-    });
+    // this.emailForm = this.fb.group({
+    //   email: ['', [Validators.required, Validators.email]]
+    // });
   }
 
   calculateMortgage() {
@@ -216,28 +223,36 @@ export class MortgageLoanComponent {
     doc.save('RepaymentSchedule.pdf');
   }
 
-  sendEmail() {
-    if (this.emailForm.invalid) {
-      return;
-    }
+  // sendEmail() {
+  //   if (this.emailForm.invalid) {
+  //     return;
+  //   }
 
-    const email = this.emailForm.get('email')?.value;
+  //   const email = this.emailForm.get('email')?.value;
 
-    const templateParams = {
-      to_email: email,
-      subject: 'Repayment Schedule',
-      message: 'Please find the attached repayment schedule.'
-    };
+  //   const templateParams = {
+  //     to_email: email,
+  //     subject: 'Repayment Schedule',
+  //     message: 'Please find the attached repayment schedule.'
+  //   };
 
-    emailjs.send('service_tnmey0f', 'template_6bedl2n', templateParams, 'ypYUpgr1ICE-Dxnoe')
-      .then((response: EmailJSResponseStatus) => {
-        console.log('Email sent successfully', response);
-        alert(`Repayment schedule sent to ${email}`);
-      })
-      .catch((error) => {
-        console.error('Error sending email', error);
-        alert('Error sending email');
-      });
-  }}
+  //   emailjs.send('service_tnmey0f', 'template_6bedl2n', templateParams, 'ypYUpgr1ICE-Dxnoe')
+  //     .then((response: EmailJSResponseStatus) => {
+  //       console.log('Email sent successfully', response);
+  //       alert(`Repayment schedule sent to ${email}`);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error sending email', error);
+  //       alert('Error sending email');
+  //     });
+  // }
+
+  openEmailModal() {
+    this.dialog.open(EmailModalComponent, {
+      width: '400px'
+    });
+  }
+
+}
 
 

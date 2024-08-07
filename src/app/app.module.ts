@@ -11,6 +11,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
 import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { InvoiceComponent } from './pages/inv-gen/invoice/invoice.component';
 import { InvoiceFormComponent } from './pages/inv-gen/invoice-form/invoice-form.component';
 import { ItemLineComponent } from './pages/inv-gen/item-line/item-line.component';
+import { EmailModalComponent } from './pages/email-modal/email-modal.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ItemLineComponent } from './pages/inv-gen/item-line/item-line.component
     LandingPageComponent,
     InvoiceComponent,
     InvoiceFormComponent,
-    ItemLineComponent
+    ItemLineComponent,
+    EmailModalComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { ItemLineComponent } from './pages/inv-gen/item-line/item-line.component
     MatCheckboxModule,
     MatTableModule, 
     MatFormFieldModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

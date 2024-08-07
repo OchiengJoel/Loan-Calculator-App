@@ -28,7 +28,7 @@
     flex: 1;
   }
 
-  .toolbar {
+  /* .toolbar {
     position: absolute;
     top: 0;
     left: 0;
@@ -39,6 +39,20 @@
     background-color: #1976d2;
     color: white;
     font-weight: 600;
+  } */
+
+  .toolbar {
+    position: fixed; /* Fixes the toolbar at the top */
+    top: 0; /* Aligns the toolbar to the top of the viewport */
+    left: 0;
+    right: 0;
+    height: 60px; /* Set the height of the toolbar */
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+    z-index: 1000; /* Ensures the toolbar is above other content */
   }
 
   .toolbar img {
@@ -65,14 +79,25 @@
     margin: 20px;    /* Set margin as needed */
   }
 
-  .content {
+  /* .content {
     display: flex;
     margin: 82px auto 32px;
     padding: 0 16px;
     max-width: 960px;
     flex-direction: column;
     align-items: center;
-  }
+  } */
+
+  /* Content styles */
+.content {
+  /*margin-top: 60px;  Adjust this value to match the height of your toolbar */
+  margin: 82px auto 32px;
+  padding: 0 16px;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
   svg.material-icons {
     height: 24px;
