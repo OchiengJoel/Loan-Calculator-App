@@ -20,6 +20,9 @@ import { CarLoanComponent } from './pages/car-loan/car-loan.component';
 import { StudentLoanComponent } from './pages/student-loan/student-loan.component';
 import { BusinessLoanComponent } from './pages/business-loan/business-loan.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { InvoiceComponent } from './pages/inv-gen/invoice/invoice.component';
+import { InvoiceFormComponent } from './pages/inv-gen/invoice-form/invoice-form.component';
+import { ItemLineComponent } from './pages/inv-gen/item-line/item-line.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
     CarLoanComponent,
     StudentLoanComponent,
     BusinessLoanComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    InvoiceComponent,
+    InvoiceFormComponent,
+    ItemLineComponent
   ],
   imports: [
     BrowserModule,

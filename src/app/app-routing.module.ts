@@ -6,6 +6,7 @@ import { MortgageLoanComponent } from './pages/mortgage-loan/mortgage-loan.compo
 import { BusinessLoanComponent } from './pages/business-loan/business-loan.component';
 import { StudentLoanComponent } from './pages/student-loan/student-loan.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { InvoiceFormComponent } from './pages/inv-gen/invoice-form/invoice-form.component';
 
 const routes: Routes = [
 
@@ -35,6 +36,10 @@ const routes: Routes = [
 
   {
     path: 'student-loan', component: StudentLoanComponent
+  },
+
+  {
+    path: 'invoice-generator', component: InvoiceFormComponent
   }
 
 ];

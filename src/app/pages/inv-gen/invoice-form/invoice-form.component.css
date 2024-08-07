@@ -1,0 +1,45 @@
+
+
+example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  mat-card-content {
+    margin: 2%;
+    text-align: left;
+  }
+  
+  .mat-form-field {
+    width: 98%;
+    margin: 1%;
+  }
+  
+  .mat-50 {
+    width: 48%;
+    margin: 1%;
+  }
+  
+  button {
+    margin: 2px;
+  }
+  
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: right;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }

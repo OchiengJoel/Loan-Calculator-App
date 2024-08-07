@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class LandingPageComponent {
 
-  title = 'Loan';
+  title = 'FinanceCentral';
 
   selectedCard: string='';
 

@@ -2,7 +2,8 @@
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>Loan App Calculator</span>
+    <!-- <span>Loan App Calculator</span> -->
+    <span>FinCentral App</span>
     <span class="spacer"></span>
     <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
         <mat-icon>favorite</mat-icon>
@@ -34,7 +35,7 @@
             </g>
         </svg> -->
 
-        <span>{{ title }} App Calculator</span>
+        <span>{{ title }} App </span>
 
         <!-- <svg id="rocket-smoke" xmlns="http://www.w3.org/2000/svg" width="516.119" height="1083.632"
             viewBox="0 0 516.119 1083.632">
@@ -47,7 +48,7 @@
     </div>
 
     <!-- Resources -->
-    <h2>Loan Options</h2>
+    <h2>Finance Options</h2>
     <p>Here Are Some Options To Get You Started</p>
 
     <div class="card-container">
@@ -75,6 +76,12 @@
             <span>Student Loan</span>
         </a>
 
+        <a class="card" target="_blank" rel="noopener" (click)="selectCard('invoiceForm')">
+            <!-- Student Loan Icon -->
+            <mat-icon aria-hidden="false" aria-label="Student icon">school</mat-icon>
+            <span>Invoice Generator</span>
+        </a>
+
         <a class="card" target="_blank" rel="noopener" (click)="selectCard('blog')">
             <!-- Blog Icon -->
             <mat-icon aria-hidden="false" aria-label="Blog icon">rss_feed</mat-icon>
@@ -97,6 +104,7 @@
             <app-car-loan *ngSwitchCase="'carLoan'"></app-car-loan>
             <app-business-loan *ngSwitchCase="'businessLoan'"></app-business-loan>
             <app-student-loan *ngSwitchCase="'studentLoan'"></app-student-loan>
+            <app-invoice-form *ngSwitchCase="'invoiceForm'"></app-invoice-form>
             <!-- <app-blog *ngSwitchCase="'blog'"></app-blog> -->
             <!-- Default case can be added if needed -->
         </ng-container>
