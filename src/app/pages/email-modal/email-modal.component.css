@@ -1,0 +1,28 @@
+.email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Adds space between form fields and buttons */
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    width: 100%; /* Ensures form field takes full width of its container */
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end; /* Aligns buttons to the right */
+    gap: 8px; /* Space between buttons */
+  }
+  
+  mat-dialog-content {
+    padding: 16px;
+  }
+  
+  button {
+    margin: 0;
+  }
+  
