@@ -1,7 +1,7 @@
 .email-form {
     display: flex;
     flex-direction: column;
-    gap: 16px; /* Adds space between form fields and buttons */
+    gap: 10px; /* Adds space between form fields and buttons */
   }
   
   .full-width {

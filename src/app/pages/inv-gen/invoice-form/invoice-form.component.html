@@ -1,102 +1,106 @@
 <form [formGroup]="invoiceForm" (ngSubmit)="generatePDF()">
-    <mat-form-field appearance="fill">
-      <mat-label>Client</mat-label>
-      <input matInput formControlName="client" required>
-      <mat-error *ngIf="invoiceForm.get('client')?.hasError('required')">Client is required.</mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Invoice Number</mat-label>
-      <input matInput formControlName="invoiceNumber" required>
-      <mat-error *ngIf="invoiceForm.get('invoiceNumber')?.hasError('required')">Invoice Number is required.</mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Date</mat-label>
-      <input matInput formControlName="date" type="date" required>
-      <mat-error *ngIf="invoiceForm.get('date')?.hasError('required')">Date is required.</mat-error>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Currency</mat-label>
-      <mat-select formControlName="currency" required>
-        <mat-option value="USD">USD</mat-option>
-        <mat-option value="EUR">EUR</mat-option>
-        <!-- Add more currencies as needed -->
-      </mat-select>
-      <mat-error *ngIf="invoiceForm.get('currency')?.hasError('required')">Currency is required.</mat-error>
-    </mat-form-field>
-  
-    <div formArrayName="items">
-      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
-        <mat-form-field appearance="fill">
-          <mat-label>Description</mat-label>
-          <input matInput formControlName="description" required>
-          <mat-error *ngIf="item.get('description')?.hasError('required')">Description is required.</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Quantity</mat-label>
-          <input matInput formControlName="quantity" type="number" required>
-          <mat-error *ngIf="item.get('quantity')?.hasError('required')">Quantity is required.</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Price</mat-label>
-          <input matInput formControlName="price" type="number" required>
-          <mat-error *ngIf="item.get('price')?.hasError('required')">Price is required.</mat-error>
-        </mat-form-field>
-        <button mat-button type="button" (click)="removeItem(i)">Remove</button>
-      </div>
+  <!-- Form fields for invoice details -->
+  <mat-form-field appearance="fill">
+    <mat-label>Client</mat-label>
+    <input id="client" matInput formControlName="client" required>
+    <mat-error *ngIf="invoiceForm.get('client')?.hasError('required')">Client is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Invoice Number</mat-label>
+    <input id="invoiceNumber" matInput formControlName="invoiceNumber" required>
+    <mat-error *ngIf="invoiceForm.get('invoiceNumber')?.hasError('required')">Invoice Number is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date</mat-label>
+    <input id="date" matInput formControlName="date" type="date" required>
+    <mat-error *ngIf="invoiceForm.get('date')?.hasError('required')">Date is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Currency</mat-label>
+    <mat-select id="currency" formControlName="currency" required>
+      <mat-option value="USD">USD</mat-option>
+      <mat-option value="EUR">EUR</mat-option>
+      <!-- Add more currencies as needed -->
+    </mat-select>
+    <mat-error *ngIf="invoiceForm.get('currency')?.hasError('required')">Currency is required.</mat-error>
+  </mat-form-field>
+
+  <div formArrayName="items">
+    <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input id="description-{{i}}" matInput formControlName="description" required>
+        <mat-error *ngIf="item.get('description')?.hasError('required')">Description is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Quantity</mat-label>
+        <input id="quantity-{{i}}" matInput formControlName="quantity" type="number" required>
+        <mat-error *ngIf="item.get('quantity')?.hasError('required')">Quantity is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input id="price-{{i}}" matInput formControlName="price" type="number" required>
+        <mat-error *ngIf="item.get('price')?.hasError('required')">Price is required.</mat-error>
+      </mat-form-field>
+      
+      <button mat-button type="button" (click)="removeItem(i)">Remove</button>
     </div>
-    <button mat-button type="button" (click)="addItem()">Add Item</button>
-  
+  </div>
+  <button mat-button type="button" (click)="addItem()">Add Item</button>
+
+  <mat-card-footer style="margin:2%;text-align: right;">
+    <div style="margin:2%;text-align: right;">
+      <button mat-raised-button color="primary" type="submit">Generate PDF</button>
+      <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button>
+    </div>
+  </mat-card-footer>
+</form>
+
+<div *ngIf="emailFormVisible">
+  <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+    <mat-form-field class="mat-100">
+      <mat-label>Email</mat-label>
+      <input id="email" matInput formControlName="email" type="email" required>
+      <mat-error *ngIf="emailForm.get('email')?.hasError('required')">Email is required.</mat-error>
+      <mat-error *ngIf="emailForm.get('email')?.hasError('email')">Invalid email address.</mat-error>
+    </mat-form-field>
     <mat-card-footer style="margin:2%;text-align: right;">
       <div style="margin:2%;text-align: right;">
-        <button mat-raised-button color="primary" type="submit">Generate PDF</button>
-        <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button>
+        <button mat-raised-button type="submit" color="primary">Send</button>
       </div>
     </mat-card-footer>
   </form>
-  
-  <div *ngIf="emailFormVisible">
-    <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
-      <mat-form-field class="mat-100">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" type="email" required>
-        <mat-error *ngIf="emailForm.get('email')?.hasError('required')">Email is required.</mat-error>
-        <mat-error *ngIf="emailForm.get('email')?.hasError('email')">Invalid email address.</mat-error>
-      </mat-form-field>
-      <mat-card-footer style="margin:2%;text-align: right;">
-        <div style="margin:2%;text-align: right;">
-          <button mat-raised-button type="submit" color="primary">Send</button>
-        </div>
-      </mat-card-footer>
-    </form>
+</div>
+
+<!-- Hidden div to generate PDF from -->
+<div id="invoice" style="display:none;">
+  <h2>Invoice</h2>
+  <div>
+    <p><b>Client: {{ invoiceForm.get('client')?.value }}</b></p>
+    <p><b>Invoice Number: {{ invoiceForm.get('invoiceNumber')?.value }}</b></p>
+    <p>Date: {{ invoiceForm.get('date')?.value }}</p>
+    <p>Currency: {{ invoiceForm.get('currency')?.value }}</p>
   </div>
-  
-  <!-- Hidden div to generate PDF from -->
-  <div id="invoice" style="display:none;">
-    <h2>Invoice</h2>
-    <div>
-      <p>Client: {{ invoiceForm.get('client')?.value }}</p>
-      <p>Invoice Number: {{ invoiceForm.get('invoiceNumber')?.value }}</p>
-      <p>Date: {{ invoiceForm.get('date')?.value }}</p>
-      <p>Currency: {{ invoiceForm.get('currency')?.value }}</p>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Quantity</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of items.controls">
-          <td>{{ item.get('description')?.value }}</td>
-          <td>{{ item.get('quantity')?.value }}</td>
-          <td>{{ item.get('price')?.value }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items.controls">
+        <td>{{ item.get('description')?.value }}</td>
+        <td>{{ item.get('quantity')?.value }}</td>
+        <td>{{ item.get('price')?.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top: 20px;">
+    <h3>Total Cost: {{ totalCost | currency:currencyCode }}</h3>
   </div>
-  
+</div>
