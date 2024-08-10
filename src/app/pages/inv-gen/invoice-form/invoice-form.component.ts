@@ -16,6 +16,7 @@ export class InvoiceFormComponent {
   emailFormVisible: boolean = false;
   emailForm: FormGroup;
   pdfData?: Blob; // Property to store the PDF Blob
+  subTotal: number = 0;
   totalCost: number = 0; // Property to store the total cost
   currencyCode: string = 'USD'; // Default currency
 
@@ -36,6 +37,8 @@ export class InvoiceFormComponent {
     });
 
     emailjs.init('ypYUpgr1ICE-Dxnoe');  // Initialize EmailJS with your user ID
+
+    this.setupValueChanges();
   }
 
   get items(): FormArray {
@@ -47,27 +50,117 @@ export class InvoiceFormComponent {
       description: ['', Validators.required],
       quantity: [1, Validators.required],
       price: [0, Validators.required],
+      vatRate: [0],  // New field for VAT rate
+      totalPrice: [{ value: 0, disabled: true }, Validators.required]  // Disable manual input for totalPrice
+  
       
     });
   }
 
+  // addItem() {
+  //   this.items.push(this.createItem());
+  // }
+
+  // removeItem(index: number) {
+  //   this.items.removeAt(index);
+  // }
+
   addItem() {
-    this.items.push(this.createItem());
+    const itemGroup = this.createItem();
+    this.items.push(itemGroup);
+    this.setupItemValueChanges(itemGroup);
   }
 
   removeItem(index: number) {
     this.items.removeAt(index);
+    this.calculateTotalCost();
   }
+
+  setupValueChanges() {
+    this.items.controls.forEach((itemGroup) => {
+      this.setupItemValueChanges(itemGroup as FormGroup);
+    });
+  }
+
+  setupItemValueChanges(itemGroup: FormGroup) {
+    itemGroup.get('quantity')?.valueChanges.subscribe(() => {
+      this.updateTotalPrice(itemGroup);
+    });
+
+    itemGroup.get('price')?.valueChanges.subscribe(() => {
+      this.updateTotalPrice(itemGroup);
+    });
+  }
+
+  // updateTotalPrice(itemGroup: FormGroup) {
+  //   const quantity = itemGroup.get('quantity')?.value || 0;
+  //   const price = itemGroup.get('price')?.value || 0;
+  //   const totalPrice = quantity * price;
+  //   itemGroup.get('totalPrice')?.setValue(totalPrice, { emitEvent: false });
+  //   this.calculateTotalCost();
+  // }
+
+  updateTotalPrice(itemGroup: FormGroup) {
+    const quantity = itemGroup.get('quantity')?.value || 0;
+    const price = itemGroup.get('price')?.value || 0;
+    const vatRate = itemGroup.get('vatRate')?.value || 0;
+
+    let totalPrice = quantity * price;
+    if (vatRate > 0) {
+      totalPrice += totalPrice * (vatRate / 100);
+    }
+
+    itemGroup.get('totalPrice')?.setValue(totalPrice, { emitEvent: false });
+    this.calculateTotalCost();
+  }
+
+  // calculateTotalCost(): number {
+  //   const total = this.items.controls.reduce((sum, item) => {
+  //     const totalPrice = item.get('totalPrice')?.value || 0;
+  //     return sum + totalPrice;
+  //   }, 0);
+  //   this.totalCost = total;
+    
+  //   return total;
+  // }
 
   calculateTotalCost(): number {
     return this.items.controls.reduce((total, item) => {
       const quantity = item.get('quantity')?.value || 0;
       const price = item.get('price')?.value || 0;
-      
-      //return total + (quantity * price);
-      return total + (price);
+      const vatRate = item.get('vatRate')?.value || 0;
+      const itemTotal = quantity * price * (1 + vatRate / 100);
+      item.get('totalPrice')?.setValue(itemTotal);
+      return total + itemTotal;
     }, 0);
   }
+
+  calculateSubtotal(): number {
+    return this.items.controls.reduce((subtotal, item) => {
+      const quantity = item.get('quantity')?.value || 0;
+      const price = item.get('price')?.value || 0;
+      return subtotal + (quantity * price);
+    }, 0);
+  }
+
+  calculateVAT(): number {
+    return this.items.controls.reduce((vatTotal, item) => {
+      const quantity = item.get('quantity')?.value || 0;
+      const price = item.get('price')?.value || 0;
+      const vatRate = item.get('vatRate')?.value || 0;
+      return vatTotal + (quantity * price * (vatRate / 100));
+    }, 0);
+  }
+
+  // calculateTotalCost(): number {
+  //   return this.items.controls.reduce((total, item) => {
+  //     const quantity = item.get('quantity')?.value || 0;
+  //     const price = item.get('price')?.value || 0;
+      
+  //     //return total + (quantity * price);
+  //     return total + (price);
+  //   }, 0);
+  // }
 
   async generatePDF() {
     const invoiceElement = document.getElementById('invoice');

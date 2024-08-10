@@ -35,15 +35,27 @@
         <input id="description-{{i}}" matInput formControlName="description" required>
         <mat-error *ngIf="item.get('description')?.hasError('required')">Description is required.</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="mat-25">
         <mat-label>Quantity</mat-label>
         <input id="quantity-{{i}}" matInput formControlName="quantity" type="number" required>
         <mat-error *ngIf="item.get('quantity')?.hasError('required')">Quantity is required.</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill">
+
+      <mat-form-field appearance="fill" class="mat-25">
+        <mat-label>VAT Rate (%)</mat-label>
+        <input id="vatRate-{{i}}" matInput formControlName="vatRate" type="number" value="Skip">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="mat-25">
         <mat-label>Price</mat-label>
         <input id="price-{{i}}" matInput formControlName="price" type="number" required>
         <mat-error *ngIf="item.get('price')?.hasError('required')">Price is required.</mat-error>
+      </mat-form-field>      
+
+      <mat-form-field appearance="fill" class="mat-25">
+        <mat-label>Total Price</mat-label>
+        <input id="totalPrice-{{i}}" matInput formControlName="totalPrice" type="number" required>
+        <mat-error *ngIf="item.get('totalPrice')?.hasError('required')">Price is required.</mat-error>
       </mat-form-field>
       
       <button mat-button type="button" (click)="removeItem(i)">Remove</button>
@@ -76,11 +88,11 @@
 </div>
 
 <!-- Hidden div to generate PDF from -->
-<div id="invoice" style="display:none;">
+<!-- <div id="invoice" style="display:none;">
   <h2>Invoice</h2>
   <div>
     <p><b>Client: {{ invoiceForm.get('client')?.value }}</b></p>
-    <p><b>Invoice Number: {{ invoiceForm.get('invoiceNumber')?.value }}</b></p>
+    <p><b>Invoice No: {{ invoiceForm.get('invoiceNumber')?.value }}</b></p>
     <p>Date: {{ invoiceForm.get('date')?.value }}</p>
     <p>Currency: {{ invoiceForm.get('currency')?.value }}</p>
   </div>
@@ -90,6 +102,7 @@
         <th>Description</th>
         <th>Quantity</th>
         <th>Price</th>
+        <th>Total Price</th>
       </tr>
     </thead>
     <tbody>
@@ -97,10 +110,90 @@
         <td>{{ item.get('description')?.value }}</td>
         <td>{{ item.get('quantity')?.value }}</td>
         <td>{{ item.get('price')?.value }}</td>
+        <td>{{ item.get('totalPrice')?.value }}</td>
       </tr>
     </tbody>
   </table>
-  <div style="margin-top: 20px;">
-    <h3>Total Cost: {{ totalCost | currency:currencyCode }}</h3>
+  <div style="margin-top: 20px; align-items: end;">
+    <h3><b>Total Cost: {{ totalCost | currency:currencyCode }}</b></h3>
+  </div>
+</div> -->
+
+<!-- Hidden div to generate PDF from -->
+<div id="invoice" style="display:none; font-family: Arial, sans-serif; padding: 20px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div>
+      <h2 style="color: white; background-color: #3F51B5; padding: 10px; margin: 0;">John Smith</h2>
+      <p>4490 Oak Drive<br>Albany, NY 12210</p>
+    </div>
+    <div>
+      <h2 style="color: #3F51B5; margin: 0;">INVOICE</h2>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+    <div>
+      <p><b>Bill To</b><br>{{ invoiceForm.get('client')?.value }}<br>4312 Wood Road<br>New York, NY 10031</p>
+    </div>
+    <div>
+      <p><b>Ship To</b><br>{{ invoiceForm.get('client')?.value }}<br>2019 Redbud Drive<br>New York, NY 10011</p>
+    </div>
+    <div>
+      <p><b>Invoice #:</b> {{ invoiceForm.get('invoiceNumber')?.value }}</p>
+      <p><b>Invoice Date:</b> {{ invoiceForm.get('date')?.value }}</p>
+      <p><b>P.O.#:</b> 2412/2019</p>
+      <p><b>Due Date:</b> 26/02/2019</p>
+    </div>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #dddddd; padding: 8px;">QTY</th>
+        <th style="border: 1px solid #dddddd; padding: 8px;">DESCRIPTION</th>
+        <th style="border: 1px solid #dddddd; padding: 8px;">UNIT PRICE</th>
+        <th style="border: 1px solid #dddddd; padding: 8px;">AMOUNT</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items.controls">
+        <td style="border: 1px solid #dddddd; padding: 8px; text-align: center;">{{ item.get('quantity')?.value }}</td>
+        <td style="border: 1px solid #dddddd; padding: 8px;">{{ item.get('description')?.value }}</td>
+        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">{{ item.get('price')?.value | currency:currencyCode }}</td>
+        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">{{ item.get('totalPrice')?.value | currency:currencyCode }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+    <table style="border-collapse: collapse;">
+      <tr>
+        <td style="padding: 8px;">Subtotal</td>
+        <!-- <td style="padding: 8px; text-align: right;">{{ totalCost - totalCost * 0.05 | currency:currencyCode }}</td> -->
+        <td style="padding: 8px; text-align: right;">{{ calculateSubtotal() | currency:currencyCode }}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;">Sales Tax</td>
+        <!-- <td style="padding: 8px; text-align: right;">{{ totalCost * 0.05 | currency:currencyCode }}</td> -->
+        <td style="padding: 8px; text-align: right;">{{ calculateVAT() | currency:currencyCode }}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; font-weight: bold;">TOTAL</td>
+        <td style="padding: 8px; text-align: right; font-weight: bold;">{{ totalCost | currency:currencyCode }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="margin-top: 40px;">
+    <p style="margin: 0;"><b>Terms & Conditions</b></p>
+    <p style="margin: 0;">Payment is due within 15 days</p>
+    <p style="margin: 0;">Name of Bank</p>
+    <p style="margin: 0;">Account number: 1234567890</p>
+    <p style="margin: 0;">Routing: 098765432</p>
+  </div>
+
+  <div style="margin-top: 40px;">
+    <p style="text-align: right; font-style: italic;">{{ invoiceForm.get('client')?.value }}</p>
   </div>
 </div>
