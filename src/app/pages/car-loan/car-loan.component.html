@@ -1,19 +1,124 @@
-<h2>Car Loan Calculator</h2>
-<form (ngSubmit)="calculateCarLoan()">
-  <mat-form-field>
-    <mat-label>Principal</mat-label>
-    <input matInput [(ngModel)]="principal" name="principal" type="number" required>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Annual Interest Rate (%)</mat-label>
-    <input matInput [(ngModel)]="annualRate" name="rate" type="number" required>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Term (Years)</mat-label>
-    <input matInput [(ngModel)]="term" name="term" type="number" required>
-  </mat-form-field>
-  <button mat-raised-button type="submit">Calculate</button>
+<mat-card>
+  <mat-card-header>
+    <h2>Asset Financing Calculator</h2>
+  </mat-card-header>
+</mat-card>
+
+
+<form [formGroup]="carLoanForm" (ngSubmit)="calculateCarLoan()">
+
+  <mat-card-content>
+    <mat-form-field class="mat-50">
+      <mat-label>Car Value</mat-label>
+      <input matInput formControlName="carValue" type="number" required>
+      <mat-error *ngIf="carLoanForm.get('carValue')?.hasError('required')">
+        Car Value is required
+      </mat-error>
+      <mat-error *ngIf="carLoanForm.get('carValue')?.hasError('min')">
+        Car Value must be a positive number
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-50">
+      <mat-label>Initial Deposit</mat-label>
+      <input matInput formControlName="initialDeposit" type="number" required>
+      <mat-error *ngIf="carLoanForm.get('initialDeposit')?.hasError('required')">
+        Initial Deposit is required
+      </mat-error>
+      <mat-error *ngIf="carLoanForm.get('initialDeposit')?.hasError('min')">
+        Initial Deposit must be a positive number
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-50">
+      <mat-label>Annual Interest Rate (%)</mat-label>
+      <input matInput formControlName="annualRate" type="number" required>
+      <mat-error *ngIf="carLoanForm.get('annualRate')?.hasError('required')">
+        Annual Interest Rate is required
+      </mat-error>
+      <mat-error *ngIf="carLoanForm.get('annualRate')?.hasError('min')">
+        Annual Interest Rate must be a positive number
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-50">
+      <mat-label>Term (Months)</mat-label>
+      <input matInput formControlName="term" type="number" required>
+      <mat-error *ngIf="carLoanForm.get('term')?.hasError('required')">
+        Term is required
+      </mat-error>
+      <mat-error *ngIf="carLoanForm.get('term')?.hasError('min')">
+        Term must be at least 1 month
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-50">
+      <mat-label>Repayment Method</mat-label>
+      <mat-select formControlName="method">
+        <mat-option *ngFor="let method of methods" [value]="method.value">
+          {{method.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="showSchedule">Show Repayment Schedule</mat-checkbox>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="carLoanForm.invalid">Calculate</button>
+  </mat-card-content>
 </form>
-<div *ngIf="monthlyPayment">
-  <h3>Monthly Payment: {{ monthlyPayment | currency }}</h3>
-</div>
+
+<mat-card *ngIf="monthlyPayment && carLoanForm.valid">
+  <mat-card-content>
+    <h3>Loan Details</h3>
+    <p>Car Value: {{carValue | currency}}</p>
+    <p>Initial Deposit: {{initialDeposit | currency}}</p>
+    <p>Principal (Financed Amount): {{principal | currency}}</p>
+    <p>Annual Interest Rate: {{annualRate}}%</p>
+    <p>Term: {{term}} months</p>
+    <p>Monthly Payment: {{monthlyPayment | currency}}</p>
+    <p>Total Repayment: {{totalRepayment | currency}}</p>
+    <p>Cumulative Interest: {{cumulativeInterest | currency}}</p>
+    
+    <div style="margin:2%;text-align: right;">
+    <button mat-raised-button color="accent" (click)="exportToExcel()">Export to Excel</button>
+    <button mat-raised-button color="accent" (click)="exportToPDF()">Export to PDF</button>
+    <button mat-raised-button color="accent" (click)="openEmailModal()">Send by Email</button>
+    </div>
+  </mat-card-content>
+
+  <mat-card-content>
+    <div class="table-container">
+      <div *ngIf="showSchedule && repaymentSchedule.length">
+        <table mat-table [dataSource]="repaymentSchedule" class="mat-elevation-z8">
+          <ng-container matColumnDef="month">
+            <th mat-header-cell *matHeaderCellDef> Month </th>
+            <td mat-cell *matCellDef="let element"> {{element.month}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="interest">
+            <th mat-header-cell *matHeaderCellDef> Interest </th>
+            <td mat-cell *matCellDef="let element"> {{element.interest | currency}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="paymentPrincipal">
+            <th mat-header-cell *matHeaderCellDef> Payment Principal </th>
+            <td mat-cell *matCellDef="let element"> {{element.paymentPrincipal | currency}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef> Total Payment </th>
+            <td mat-cell *matCellDef="let element"> {{element.total | currency}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="runningBalance">
+            <th mat-header-cell *matHeaderCellDef> Running Balance </th>
+            <td mat-cell *matCellDef="let element"> {{element.runningBalance | currency}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

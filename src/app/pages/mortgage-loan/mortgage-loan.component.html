@@ -65,8 +65,16 @@
   <h4>Cumulative Interest: {{ cumulativeInterest | currency }}</h4>
 </div>
 
+
+
 <div *ngIf="showSchedule && repaymentSchedule.length > 0">
   <h3>Repayment Schedule</h3>
+  <div style="margin:2%;text-align: right;">
+    <button mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
+    <button mat-raised-button color="primary" (click)="exportToPDF()">Export to PDF</button>
+    <!-- <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button> -->
+    <button mat-raised-button color="primary" (click)="openEmailModal()">Email</button>
+  </div>
   <mat-card-content>
     <div class="table-container">
       <table mat-table [dataSource]="repaymentSchedule" class="mat-elevation-z8">

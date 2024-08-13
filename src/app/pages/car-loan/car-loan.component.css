@@ -1,13 +1,51 @@
-h1, h2 {
-    text-align: center;
-  }
-  
-  form {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .mat-form-field {
-    width: 100%;
-  }
-  
+example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+mat-card-content {
+  margin: 2%;
+  text-align: left;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin: 1%;
+}
+
+.mat-50 {
+  width: 48%;
+  margin: 1%;
+}
+
+button {
+  margin: 2px;
+}
+
+
+.table-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto;  /* Adds vertical scroll bar if content exceeds max height */
+  border: 1px solid #ddd; /* Optional: Adds a border around the table */
+  border-radius: 4px; /* Optional: Rounds the corners */
+  margin-top: 16px; /* Optional: Adds space above the table */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: right;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

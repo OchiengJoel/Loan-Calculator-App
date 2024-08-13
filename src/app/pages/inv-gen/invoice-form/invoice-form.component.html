@@ -1,5 +1,30 @@
 <form [formGroup]="invoiceForm" (ngSubmit)="generatePDF()">
-  <!-- Form fields for invoice details -->
+
+  <!-- Reciever Form fields for invoice details -->
+  <mat-form-field appearance="fill">
+    <mat-label>Company Name</mat-label>
+    <input id="company" matInput formControlName="company" required placeholder="Enter Your Company Name">
+    <mat-error *ngIf="invoiceForm.get('company')?.hasError('required')">Company Name is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Company Email</mat-label>
+    <input id="companyEmail" matInput formControlName="companyEmail">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Address</mat-label>
+    <input id="address" matInput formControlName="address" required>
+    <mat-error *ngIf="invoiceForm.get('address')?.hasError('required')">Address is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Company PIN</mat-label>
+    <input id="companyPin" matInput formControlName="companyPin" required>
+  </mat-form-field>
+
+
+  <!-- Customer/Client Form fields for invoice details -->
   <mat-form-field appearance="fill">
     <mat-label>Client</mat-label>
     <input id="client" matInput formControlName="client" required>
@@ -8,7 +33,7 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Invoice Number</mat-label>
-    <input id="invoiceNumber" matInput formControlName="invoiceNumber" required>
+    <input id="invoiceNumber" matInput formControlName="invoiceNumber" value="INV-0110" required>
     <mat-error *ngIf="invoiceForm.get('invoiceNumber')?.hasError('required')">Invoice Number is required.</mat-error>
   </mat-form-field>
 

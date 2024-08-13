@@ -58,23 +58,23 @@
             <span>Home Loan</span>
         </a>
 
-        <a class="card" target="_blank" rel="noopener" (click)="selectCard('carLoan')">
+        <a class="card" target="_blank" rel="noopener" (click)="selectCard('assetLoan')">
             <!-- Car Loan Icon -->
             <mat-icon aria-hidden="false" aria-label="Car icon">directions_car</mat-icon>
-            <span>Car Loan</span>
+            <span>Asset Financing </span>
         </a>
 
-        <a class="card" target="_blank" rel="noopener" (click)="selectCard('businessLoan')">
-            <!-- Business Loan Icon -->
+        <!-- <a class="card" target="_blank" rel="noopener" (click)="selectCard('businessLoan')">
+            
             <mat-icon aria-hidden="false" aria-label="Business icon">business</mat-icon>
             <span>Business Loan</span>
         </a>
 
         <a class="card" target="_blank" rel="noopener" (click)="selectCard('studentLoan')">
-            <!-- Student Loan Icon -->
+            
             <mat-icon aria-hidden="false" aria-label="Student icon">school</mat-icon>
             <span>Student Loan</span>
-        </a>
+        </a> -->
 
         <a class="card" target="_blank" rel="noopener" (click)="selectCard('invoiceForm')">
             <!-- Student Loan Icon -->
@@ -101,9 +101,7 @@
     <div class="form-container">
         <ng-container [ngSwitch]="selectedCard">
             <app-mortgage-loan *ngSwitchCase="'homeLoan'"></app-mortgage-loan>
-            <app-car-loan *ngSwitchCase="'carLoan'"></app-car-loan>
-            <app-business-loan *ngSwitchCase="'businessLoan'"></app-business-loan>
-            <app-student-loan *ngSwitchCase="'studentLoan'"></app-student-loan>
+            <app-car-loan *ngSwitchCase="'assetLoan'"></app-car-loan>
             <app-invoice-form *ngSwitchCase="'invoiceForm'"></app-invoice-form>
             <!-- <app-blog *ngSwitchCase="'blog'"></app-blog> -->
             <!-- Default case can be added if needed -->
