@@ -9,7 +9,7 @@
 
   <mat-card-content>
     <mat-form-field class="mat-50">
-      <mat-label>Car Value</mat-label>
+      <mat-label>Asset Value</mat-label>
       <input matInput formControlName="carValue" type="number" required>
       <mat-error *ngIf="carLoanForm.get('carValue')?.hasError('required')">
         Car Value is required
@@ -78,7 +78,7 @@
     <p>Monthly Payment: {{monthlyPayment | currency}}</p>
     <p>Total Repayment: {{totalRepayment | currency}}</p>
     <p>Cumulative Interest: {{cumulativeInterest | currency}}</p>
-    
+
     <div style="margin:2%;text-align: right;">
     <button mat-raised-button color="accent" (click)="exportToExcel()">Export to Excel</button>
     <button mat-raised-button color="accent" (click)="exportToPDF()">Export to PDF</button>
