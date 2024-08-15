@@ -4,62 +4,52 @@
     </mat-card-header>    
 </mat-card>
 
-    <form [formGroup]="salaryForm" (ngSubmit)="calculateSalary()">
-        <mat-card-content>
+<form [formGroup]="salaryForm" (ngSubmit)="calculateSalary()">
+    <mat-card-content>
+        <mat-form-field class="mat-50">
+            <mat-label>Gross Salary</mat-label>
+            <input matInput type="number" formControlName="grossSalary" required />
+        </mat-form-field>
 
-            <mat-form-field  class="mat-50">
-                <mat-label>Gross Salary</mat-label>
-                <input matInput type="number" formControlName="grossSalary" required />
-            </mat-form-field>
+        <mat-form-field class="mat-50">
+            <mat-label>Pension Rate (%)</mat-label>
+            <input matInput type="number" formControlName="pensionRate" required />
+        </mat-form-field>
 
-            <mat-form-field  class="mat-50">
-                <mat-label>Pension Rate (%)</mat-label>
-                <input matInput type="number" formControlName="pensionRate" required />
-            </mat-form-field>
-
-            <h3><b>Deductions</b></h3>
-            <div formArrayName="deductions">
-                <div *ngFor="let deduction of deductions.controls; let i = index" [formGroupName]="i">
-                    <mat-form-field  class="mat-25">
-                        <mat-label>Deduction Name</mat-label>
-                        <input matInput type="text" formControlName="name" placeholder="e.g., SACCO" required />
-                    </mat-form-field>
-                    <mat-form-field  class="mat-25">
-                        <mat-label>Amount</mat-label>
-                        <input matInput type="number" formControlName="amount" placeholder="e.g., 5000" required />
-                    </mat-form-field>
-                    <!-- <button mat-icon-button color="warn" (click)="removeDeduction(i)">Remove</button> -->
-                    <button mat-icon-button type="button" color="secondary" (click)="removeDeduction(i)">(-)</button>
-                </div>
+        <h3><b>Deductions</b></h3>
+        <div formArrayName="deductions">
+            <div *ngFor="let deduction of deductions.controls; let i = index" [formGroupName]="i">
+                <mat-form-field class="mat-25">
+                    <mat-label>Deduction Name</mat-label>
+                    <input matInput type="text" formControlName="name" placeholder="e.g., SACCO" required />
+                </mat-form-field>
+                <mat-form-field class="mat-25">
+                    <mat-label>Amount</mat-label>
+                    <input matInput type="number" formControlName="amount" placeholder="e.g., 5000" required />
+                </mat-form-field>
+                <button mat-icon-button type="button" color="warn" (click)="removeDeduction(i)">(-)</button>
             </div>
-
-            <!-- <button mat-raised-button color="primary" type="button" (click)="addDeduction()">Add Deduction</button> -->
-            <button mat-button type="button" color="secondary" (click)="addDeduction()">Add Item (+)</button>
-    </mat-card-content>       
-    <mat-card-footer style="margin:2%;text-align: right;">
-        <div style="margin:2%;text-align: right;">
-        <button mat-raised-button color="primary" type="submit">Calculate</button>
         </div>
+
+        <button mat-button type="button" color="secondary" (click)="addDeduction()">Add Deduction (+)</button>
+    </mat-card-content>
+    <mat-card-footer style="text-align: right;">
+        <button mat-raised-button color="primary" type="submit">Calculate</button>
     </mat-card-footer>
-        
-    </form>
-
-
-
+</form>
 
 <mat-card *ngIf="result">
     <h2>Salary Slip</h2>
     <p><strong>Gross Salary:</strong> {{ result.grossSalary | currency }}</p>
-    <p><strong>PAYE:</strong> {{ result.PAYE | currency }}</p>
-    <p><strong>NSSF:</strong> {{ result.NSSF | currency }}</p>
-    <p><strong>NHIF:</strong> {{ result.NHIF | currency }}</p>
+    <p><strong>Taxable Income:</strong> {{ result.taxableIncome | currency }}</p>
+    <p><strong>PAYE:</strong> {{ result.paye | currency }}</p>
+    <p><strong>NSSF:</strong> {{ result.nssf | currency }}</p>
+    <p><strong>NHIF:</strong> {{ result.nhif | currency }}</p>
+    <p><strong>Insurance Relief:</strong> {{ result.insuranceRelief | currency }}</p>
+    <p><strong>Monthly Personal Relief:</strong> {{ result.monthlyPersonalRelief | currency }}</p>
+    <p><strong>Housing Levy:</strong> {{ result.housingLevy | currency }}</p>
     <p><strong>Pension Contribution:</strong> {{ result.pensionContribution | currency }}</p>
-    <h3>Deductions:</h3>
-    <ul>
-        <li *ngFor="let deduction of result.deductions">
-            <strong>{{ deduction.name }}:</strong> {{ deduction.amount | currency }}
-        </li>
-    </ul>
-    <h3><strong>Net Salary:</strong> {{ result.netSalary | currency }}</h3>
-    <button mat-raised-button color="accent" (click)="printSalarySlip()">Print Salary Slip</button>
+    <p><strong>Total Deductions:</strong> <b>{{ result.netSalary - result.grossSalary | currency }}</b> </p>
+    <p><strong>Net Salary:</strong> <b>{{ result.netSalary | currency }}</b></p>
+    <button mat-raised-button color="primary" (click)="printSalarySlip()">Print Salary Slip</button>
 </mat-card>

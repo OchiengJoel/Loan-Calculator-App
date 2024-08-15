@@ -15,7 +15,7 @@ export class SalaryCalculatorComponent {
   constructor(private fb: FormBuilder, private salaryService: SalaryService) {
     this.salaryForm = this.fb.group({
       grossSalary: [''],
-      pensionRate: [5], // 5% employee pension rate
+      pensionRate: [0], // 5% employee pension rate
       deductions: this.fb.array([]),
     });
   }
