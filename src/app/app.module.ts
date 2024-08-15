@@ -25,6 +25,7 @@ import { InvoiceComponent } from './pages/inv-gen/invoice/invoice.component';
 import { InvoiceFormComponent } from './pages/inv-gen/invoice-form/invoice-form.component';
 import { ItemLineComponent } from './pages/inv-gen/item-line/item-line.component';
 import { EmailModalComponent } from './pages/email-modal/email-modal.component';
+import { SalaryCalculatorComponent } from './pages/salary-calculator/salary-calculator.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { EmailModalComponent } from './pages/email-modal/email-modal.component';
     InvoiceComponent,
     InvoiceFormComponent,
     ItemLineComponent,
-    EmailModalComponent
+    EmailModalComponent,
+    SalaryCalculatorComponent
   ],
   imports: [
     BrowserModule,

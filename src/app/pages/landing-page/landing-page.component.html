@@ -63,6 +63,11 @@
             <mat-icon aria-hidden="false" aria-label="Car icon">directions_car</mat-icon>
             <span>Asset Financing </span>
         </a>
+        <a class="card" target="_blank" rel="noopener" (click)="selectCard('salaryCalculator')">
+            <!-- Car Loan Icon -->
+            <mat-icon aria-hidden="false" aria-label="Car icon">directions_car</mat-icon>
+            <span>Salary Calculator</span>
+        </a>
 
         <!-- <a class="card" target="_blank" rel="noopener" (click)="selectCard('businessLoan')">
             
@@ -103,6 +108,7 @@
             <app-mortgage-loan *ngSwitchCase="'homeLoan'"></app-mortgage-loan>
             <app-car-loan *ngSwitchCase="'assetLoan'"></app-car-loan>
             <app-invoice-form *ngSwitchCase="'invoiceForm'"></app-invoice-form>
+            <app-salary-calculator *ngSwitchCase="'salaryCalculator'"></app-salary-calculator>
             <!-- <app-blog *ngSwitchCase="'blog'"></app-blog> -->
             <!-- Default case can be added if needed -->
         </ng-container>
