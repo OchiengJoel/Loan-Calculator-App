@@ -11,9 +11,15 @@ export class SalaryCalculatorComponent {
 
   salaryForm: FormGroup;
   result: any;
+  employeeDetails: any[] = [];
+  displayedColumns: string[] = ['employeeNo', 'fullName', 'idNumber', 'jobTitle'];
 
   constructor(private fb: FormBuilder, private salaryService: SalaryService) {
     this.salaryForm = this.fb.group({
+      employeeNo: [''],
+      fullName: [''],
+      idNumber: [''],
+      jobTitle: [''],
       grossSalary: [''],
       pensionRate: [0], // 5% employee pension rate
       deductions: this.fb.array([]),
@@ -36,9 +42,22 @@ export class SalaryCalculatorComponent {
     this.deductions.removeAt(index);
   }
 
+  // calculateSalary() {
+  //   const { grossSalary, pensionRate, deductions } = this.salaryForm.value;
+  //   this.result = this.salaryService.calculateNetSalary(grossSalary, deductions, pensionRate);
+  // }
+
   calculateSalary() {
-    const { grossSalary, pensionRate, deductions } = this.salaryForm.value;
+    const { employeeNo, fullName, idNumber, jobTitle, grossSalary, pensionRate, deductions } = this.salaryForm.value;
     this.result = this.salaryService.calculateNetSalary(grossSalary, deductions, pensionRate);
+  
+    // Populate employee details for the table
+    this.employeeDetails = [{
+      employeeNo,
+      fullName,
+      idNumber,
+      jobTitle
+    }];
   }
 
   printSalarySlip() {

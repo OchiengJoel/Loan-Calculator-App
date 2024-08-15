@@ -15,8 +15,8 @@
   }
 
   .mat-25 {
-    width: 41%;
-    margin: 0.8%;
+    width: 24%;
+    margin: 0.5%;
   }
   
   /* button {
@@ -39,5 +39,32 @@
   button {
     margin: 2px;
     /* color: darkred; */
+  }
+
+  .salary-slip-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .salary-details {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  /* .salary-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  } */
+  
+  .salary-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .salary-summary .column {
+    width: 50%;
   }
   

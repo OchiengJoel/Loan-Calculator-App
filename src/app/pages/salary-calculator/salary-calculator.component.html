@@ -1,11 +1,31 @@
 <mat-card>
     <mat-card-header>
         <h2>Salary Calculator</h2>
-    </mat-card-header>    
+    </mat-card-header>
 </mat-card>
 
 <form [formGroup]="salaryForm" (ngSubmit)="calculateSalary()">
     <mat-card-content>
+        <mat-form-field class="mat-25">
+            <mat-label>Employee No.</mat-label>
+            <input matInput type="number" formControlName="employeeNo" required />
+        </mat-form-field>
+
+        <mat-form-field class="mat-25">
+            <mat-label>Full Names</mat-label>
+            <input matInput type="text" formControlName="fullName" required />
+        </mat-form-field>
+
+        <mat-form-field class="mat-25">
+            <mat-label>ID Number</mat-label>
+            <input matInput type="number" formControlName="idNumber" required />
+        </mat-form-field>
+
+        <mat-form-field class="mat-25">
+            <mat-label>Job Title</mat-label>
+            <input matInput type="text" formControlName="jobTitle" required />
+        </mat-form-field>
+
         <mat-form-field class="mat-50">
             <mat-label>Gross Salary</mat-label>
             <input matInput type="number" formControlName="grossSalary" required />
@@ -33,23 +53,70 @@
 
         <button mat-button type="button" color="secondary" (click)="addDeduction()">Add Deduction (+)</button>
     </mat-card-content>
+
     <mat-card-footer style="text-align: right;">
         <button mat-raised-button color="primary" type="submit">Calculate</button>
     </mat-card-footer>
 </form>
 
 <mat-card *ngIf="result">
-    <h2>Salary Slip</h2>
-    <p><strong>Gross Salary:</strong> {{ result.grossSalary | currency }}</p>
-    <p><strong>Taxable Income:</strong> {{ result.taxableIncome | currency }}</p>
-    <p><strong>PAYE:</strong> {{ result.paye | currency }}</p>
-    <p><strong>NSSF:</strong> {{ result.nssf | currency }}</p>
-    <p><strong>NHIF:</strong> {{ result.nhif | currency }}</p>
-    <p><strong>Insurance Relief:</strong> {{ result.insuranceRelief | currency }}</p>
-    <p><strong>Monthly Personal Relief:</strong> {{ result.monthlyPersonalRelief | currency }}</p>
-    <p><strong>Housing Levy:</strong> {{ result.housingLevy | currency }}</p>
-    <p><strong>Pension Contribution:</strong> {{ result.pensionContribution | currency }}</p>
-    <p><strong>Total Deductions:</strong> <b>{{ result.netSalary - result.grossSalary | currency }}</b> </p>
-    <p><strong>Net Salary:</strong> <b>{{ result.netSalary | currency }}</b></p>
     <button mat-raised-button color="primary" (click)="printSalarySlip()">Print Salary Slip</button>
+    <mat-card-content>
+        <div class="salary-slip-container">
+            <h2>Salary Slip</h2>
+            <div class="salary-details">
+                <table mat-table [dataSource]="employeeDetails" class="mat-elevation-z8">
+                    <!-- Employee Number -->
+                    <ng-container matColumnDef="employeeNo">
+                        <th mat-header-cell *matHeaderCellDef>Employee Number</th>
+                        <td mat-cell *matCellDef="let element">{{ element.employeeNo }}</td>
+                    </ng-container>
+
+                    <!-- Full Name -->
+                    <ng-container matColumnDef="fullName">
+                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                        <td mat-cell *matCellDef="let element">{{ element.fullName }}</td>
+                    </ng-container>
+
+                    <!-- ID Number -->
+                    <ng-container matColumnDef="idNumber">
+                        <th mat-header-cell *matHeaderCellDef>ID No.</th>
+                        <td mat-cell *matCellDef="let element">{{ element.idNumber }}</td>
+                    </ng-container>
+
+                    <!-- Job Title -->
+                    <ng-container matColumnDef="jobTitle">
+                        <th mat-header-cell *matHeaderCellDef>Job Title</th>
+                        <td mat-cell *matCellDef="let element">{{ element.jobTitle }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <div class="salary-summary">
+                <div class="column">
+                    <p><strong>Gross Salary:</strong> {{ result.grossSalary | currency }}</p>
+                    <p><strong>Taxable Income:</strong> {{ result.taxableIncome | currency }}</p>
+                    <p><strong>PAYE:</strong> {{ result.paye | currency }}</p>
+                    <p><strong>NSSF:</strong> {{ result.nssf | currency }}</p>
+                    <p><strong>NHIF:</strong> {{ result.nhif | currency }}</p>
+                </div>
+
+                <div class="column">
+                    <p><strong>Insurance Relief:</strong> {{ result.insuranceRelief | currency }}</p>
+                    <p><strong>Monthly Personal Relief:</strong> {{ result.monthlyPersonalRelief | currency }}</p>
+                    <p><strong>Housing Levy:</strong> {{ result.housingLevy | currency }}</p>
+                    <p><strong>Pension Contribution:</strong> {{ result.pensionContribution | currency }}</p>
+                </div>
+
+                <div class="column">
+                    <p><strong>Total Deductions:</strong> <b>{{ result.totalDeductions | currency }}</b></p>
+                    <p><strong>Net Salary:</strong> <b>{{ result.netSalary | currency }}</b></p>
+                </div>
+            </div>
+
+        </div>
+    </mat-card-content>
 </mat-card>
