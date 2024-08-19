@@ -91,6 +91,7 @@ export class SalaryService {
       monthlyPersonalRelief,
       pensionContribution,
       deductions,
+      totalDeductions,
       netSalary,
     };
   }

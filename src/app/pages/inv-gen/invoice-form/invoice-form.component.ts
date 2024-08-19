@@ -18,7 +18,8 @@ export class InvoiceFormComponent {
   pdfData?: Blob; // Property to store the PDF Blob
   subTotal: number = 0;
   totalCost: number = 0; // Property to store the total cost
-  currencyCode: string = 'USD'; // Default currency
+  currencyCode: string = 'KES'; // Default currency
+  currencyList = ["KES","USD","UGX", "TZS","EUR","ZAR","KWACHA","PESOS"]
 
   constructor(
     private fb: FormBuilder

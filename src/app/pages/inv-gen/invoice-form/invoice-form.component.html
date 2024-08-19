@@ -46,8 +46,10 @@
   <mat-form-field appearance="fill">
     <mat-label>Currency</mat-label>
     <mat-select id="currency" formControlName="currency" required>
-      <mat-option value="USD">USD</mat-option>
-      <mat-option value="EUR">EUR</mat-option>
+      <mat-option *ngFor="let type of currencyList" [value]="type">{{type}}</mat-option>
+      
+      <!-- <mat-option value="USD">USD</mat-option>
+      <mat-option value="EUR">EUR</mat-option> -->
       <!-- Add more currencies as needed -->
     </mat-select>
     <mat-error *ngIf="invoiceForm.get('currency')?.hasError('required')">Currency is required.</mat-error>
@@ -149,7 +151,7 @@
 
   <div style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2 style="color: white; background-color: #3F51B5; padding: 10px; margin: 0;">John Smith</h2>
+      <h2 style="color: #3F51B5; padding: 10px; margin: 0;">John Smith</h2>
       <p>4490 Oak Drive<br>Albany, NY 12210</p>
     </div>
     <div>
