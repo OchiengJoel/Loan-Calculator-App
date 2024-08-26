@@ -1,53 +1,90 @@
 <form [formGroup]="invoiceForm" (ngSubmit)="generatePDF()">
 
   <!-- Reciever Form fields for invoice details -->
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="mat-25">
     <mat-label>Company Name</mat-label>
     <input id="company" matInput formControlName="company" required placeholder="Enter Your Company Name">
     <mat-error *ngIf="invoiceForm.get('company')?.hasError('required')">Company Name is required.</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Company Email</mat-label>
-    <input id="companyEmail" matInput formControlName="companyEmail">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Address</mat-label>
-    <input id="address" matInput formControlName="address" required>
-    <mat-error *ngIf="invoiceForm.get('address')?.hasError('required')">Address is required.</mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="mat-25">
     <mat-label>Company PIN</mat-label>
     <input id="companyPin" matInput formControlName="companyPin" required>
   </mat-form-field>
 
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>Company Email</mat-label>
+    <input id="companyEmail" matInput formControlName="companyEmail" type="email">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>Address Line</mat-label>
+    <input id="companyAddress" matInput formControlName="companyAddress" required>
+    <mat-error *ngIf="invoiceForm.get('companyAddress')?.hasError('required')">Address is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>City</mat-label>
+    <input id="companyCity" matInput formControlName="companyCity" required>
+    <mat-error *ngIf="invoiceForm.get('companyCity')?.hasError('required')">Address is required.</mat-error>
+  </mat-form-field>
+
+  <br>
 
   <!-- Customer/Client Form fields for invoice details -->
-  <mat-form-field appearance="fill">
-    <mat-label>Client</mat-label>
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>Client Name</mat-label>
     <input id="client" matInput formControlName="client" required>
     <mat-error *ngIf="invoiceForm.get('client')?.hasError('required')">Client is required.</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>Client PIN</mat-label>
+    <input id="clientPin" matInput formControlName="clientPin" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>Client Email</mat-label>
+    <input id="clientEmail" matInput formControlName="clientEmail">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>Address Line</mat-label>
+    <input id="clientAddress" matInput formControlName="clientAddress" required>
+    <mat-error *ngIf="invoiceForm.get('clientAddress')?.hasError('required')">Address is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>City</mat-label>
+    <input id="clientCity" matInput formControlName="clientCity" required>
+    <mat-error *ngIf="invoiceForm.get('clientCity')?.hasError('required')">Address is required.</mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field appearance="fill" class="mat-25">
     <mat-label>Invoice Number</mat-label>
     <input id="invoiceNumber" matInput formControlName="invoiceNumber" value="INV-0110" required>
     <mat-error *ngIf="invoiceForm.get('invoiceNumber')?.hasError('required')">Invoice Number is required.</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="mat-25">
     <mat-label>Date</mat-label>
     <input id="date" matInput formControlName="date" type="date" required>
     <mat-error *ngIf="invoiceForm.get('date')?.hasError('required')">Date is required.</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="mat-25">
+    <mat-label>Due Date</mat-label>
+    <input id="dueDate" matInput formControlName="dueDate" type="date" required>
+    <mat-error *ngIf="invoiceForm.get('dueDate')?.hasError('required')">Date is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mat-25">
     <mat-label>Currency</mat-label>
     <mat-select id="currency" formControlName="currency" required>
       <mat-option *ngFor="let type of currencyList" [value]="type">{{type}}</mat-option>
-      
+
       <!-- <mat-option value="USD">USD</mat-option>
       <mat-option value="EUR">EUR</mat-option> -->
       <!-- Add more currencies as needed -->
@@ -77,14 +114,14 @@
         <mat-label>Price</mat-label>
         <input id="price-{{i}}" matInput formControlName="price" type="number" required>
         <mat-error *ngIf="item.get('price')?.hasError('required')">Price is required.</mat-error>
-      </mat-form-field>      
+      </mat-form-field>
 
       <mat-form-field appearance="fill" class="mat-25">
         <mat-label>Total Price</mat-label>
         <input id="totalPrice-{{i}}" matInput formControlName="totalPrice" type="number" required>
         <mat-error *ngIf="item.get('totalPrice')?.hasError('required')">Price is required.</mat-error>
       </mat-form-field>
-      
+
       <button mat-button type="button" (click)="removeItem(i)">Remove</button>
     </div>
   </div>
@@ -151,26 +188,43 @@
 
   <div style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2 style="color: #3F51B5; padding: 10px; margin: 0;">John Smith</h2>
-      <p>4490 Oak Drive<br>Albany, NY 12210</p>
+      <h2 style="color: #3F51B5; padding: 8px; margin: 0;"><b>{{invoiceForm.get('company')?.value}}</b></h2>
+      <p>
+        <b>PIN:</b>{{invoiceForm.get('companyPin')?.value}}<br>
+        <b>Email:</b> {{invoiceForm.get('companyEmail')?.value}}<br>
+        <b>Box #:</b> {{invoiceForm.get('companyAddress')?.value}}<br>
+        <b>Town:</b> {{invoiceForm.get('companyCity')?.value}}
+      </p>
     </div>
     <div>
-      <h2 style="color: #3F51B5; margin: 0;">INVOICE</h2>
+      <h2 style="color: #3F51B5; padding: 8px; margin: 0;"><b>INVOICE</b></h2>
     </div>
   </div>
 
   <div style="display: flex; justify-content: space-between; margin-top: 20px;">
     <div>
-      <p><b>Bill To</b><br>{{ invoiceForm.get('client')?.value }}<br>4312 Wood Road<br>New York, NY 10031</p>
+      <p>
+        <b>Bill To</b><br><b>{{ invoiceForm.get('client')?.value }}</b><br>
+        <b>PIN:</b>{{invoiceForm.get('clientPin')?.value}}<br>
+        <b>Email:</b> {{invoiceForm.get('clientEmail')?.value}}<br>
+        <b>Box #:</b> {{invoiceForm.get('clientAddress')?.value}}<br>
+        <b>Town:</b> {{invoiceForm.get('clientCity')?.value}}
+      </p>
     </div>
     <div>
-      <p><b>Ship To</b><br>{{ invoiceForm.get('client')?.value }}<br>2019 Redbud Drive<br>New York, NY 10011</p>
+      <p>
+        <b>Ship To</b><br><b>{{ invoiceForm.get('client')?.value }}</b><br>
+        <b>PIN:</b>{{invoiceForm.get('clientPin')?.value}}<br>
+        <b>Email:</b> {{invoiceForm.get('clientEmail')?.value}}<br>
+        <b>Box #:</b> {{invoiceForm.get('clientAddress')?.value}}<br>
+        <b>Town:</b> {{invoiceForm.get('clientCity')?.value}}
+      </p>
     </div>
     <div>
       <p><b>Invoice #:</b> {{ invoiceForm.get('invoiceNumber')?.value }}</p>
       <p><b>Invoice Date:</b> {{ invoiceForm.get('date')?.value }}</p>
-      <p><b>P.O.#:</b> 2412/2019</p>
-      <p><b>Due Date:</b> 26/02/2019</p>
+      <p><b>P.O.#:</b> 2412/2024</p>
+      <p><b>Due Date:</b> {{invoiceForm.get('dueDate')?.value}}</p>
     </div>
   </div>
 
@@ -187,8 +241,10 @@
       <tr *ngFor="let item of items.controls">
         <td style="border: 1px solid #dddddd; padding: 8px; text-align: center;">{{ item.get('quantity')?.value }}</td>
         <td style="border: 1px solid #dddddd; padding: 8px;">{{ item.get('description')?.value }}</td>
-        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">{{ item.get('price')?.value | currency:currencyCode }}</td>
-        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">{{ item.get('totalPrice')?.value | currency:currencyCode }}</td>
+        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;"> {{ item.get('price')?.value |
+          currency:currencyCode }}</td>
+        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;"> {{ item.get('totalPrice')?.value |
+          currency:currencyCode }}</td>
       </tr>
     </tbody>
   </table>
@@ -203,18 +259,18 @@
       <tr>
         <td style="padding: 8px;">Sales Tax</td>
         <!-- <td style="padding: 8px; text-align: right;">{{ totalCost * 0.05 | currency:currencyCode }}</td> -->
-        <td style="padding: 8px; text-align: right;">{{ calculateVAT() | currency:currencyCode }}</td>
+        <td style="padding: 8px; text-align: right;"> {{ calculateVAT() | currency:currencyCode }}</td>
       </tr>
       <tr>
         <td style="padding: 8px; font-weight: bold;">TOTAL</td>
-        <td style="padding: 8px; text-align: right; font-weight: bold;">{{ totalCost | currency:currencyCode }}</td>
+        <td style="padding: 8px; text-align: right; font-weight: bold;"> {{ totalCost | currency:currencyCode }}</td>
       </tr>
     </table>
   </div>
 
   <div style="margin-top: 40px;">
     <p style="margin: 0;"><b>Terms & Conditions</b></p>
-    <p style="margin: 0;">Payment is due within 15 days</p>
+    <p style="margin: 0;">{{invoiceForm.get('terms')?.value}}</p>
     <p style="margin: 0;">Name of Bank</p>
     <p style="margin: 0;">Account number: 1234567890</p>
     <p style="margin: 0;">Routing: 098765432</p>

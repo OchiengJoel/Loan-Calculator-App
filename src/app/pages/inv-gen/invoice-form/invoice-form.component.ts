@@ -26,10 +26,25 @@ export class InvoiceFormComponent {
     
   ) {
     this.invoiceForm = this.fb.group({
+      company: ['', Validators.required],
+      companyPin: ['', Validators.required],
+      companyEmail: ['', Validators.required],
+      companyAddress: ['', Validators.required],
+      companyCity: ['', Validators.required],
+      
       client: ['', Validators.required],
+      clientPin:['', Validators.required],
+      clientEmail:['', Validators.required],
+      clientAddress:['', Validators.required],
+      clientCity:['', Validators.required],
+
       invoiceNumber: ['', Validators.required],
       date: ['', Validators.required],
+      dueDate:[''],
       currency: ['', Validators.required],
+
+      terms: ['Payment Is Due Within 15 Days', Validators.required],
+
       items: this.fb.array([this.createItem()])
     });
 
