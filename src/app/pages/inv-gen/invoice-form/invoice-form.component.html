@@ -1,139 +1,157 @@
-<form [formGroup]="invoiceForm" (ngSubmit)="generatePDF()">
+<form [formGroup]="invoiceForm" (ngSubmit)="generatePDF()" class="example-form">
+  <!-- Receiver Form Fields -->
+  <mat-card>
+    <mat-card-content>
+      <h2>Sender Details</h2>
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Company Name</mat-label>
+          <input id="company" matInput formControlName="company" required placeholder="Enter Your Company Name">
+          <mat-error *ngIf="invoiceForm.get('company')?.hasError('required')">Company Name is required.</mat-error>
+        </mat-form-field>
 
-  <!-- Reciever Form fields for invoice details -->
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Company Name</mat-label>
-    <input id="company" matInput formControlName="company" required placeholder="Enter Your Company Name">
-    <mat-error *ngIf="invoiceForm.get('company')?.hasError('required')">Company Name is required.</mat-error>
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Company PIN</mat-label>
+          <input id="companyPin" matInput formControlName="companyPin" required>
+        </mat-form-field>
+      </div>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Company PIN</mat-label>
-    <input id="companyPin" matInput formControlName="companyPin" required>
-  </mat-form-field>
+      <div class="">
+        <mat-form-field appearance="fill" class="mat-30">
+          <mat-label>Company Email</mat-label>
+          <input id="companyEmail" matInput formControlName="companyEmail" type="email">
+        </mat-form-field>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Company Email</mat-label>
-    <input id="companyEmail" matInput formControlName="companyEmail" type="email">
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="mat-30">
+          <mat-label>Address Line</mat-label>
+          <input id="companyAddress" matInput formControlName="companyAddress" required>
+          <mat-error *ngIf="invoiceForm.get('companyAddress')?.hasError('required')">Address is required.</mat-error>
+        </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="mat-30">
+          <mat-label>City</mat-label>
+          <input id="companyCity" matInput formControlName="companyCity" required>
+          <mat-error *ngIf="invoiceForm.get('companyCity')?.hasError('required')">City is required.</mat-error>
+        </mat-form-field>
+      </div>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Address Line</mat-label>
-    <input id="companyAddress" matInput formControlName="companyAddress" required>
-    <mat-error *ngIf="invoiceForm.get('companyAddress')?.hasError('required')">Address is required.</mat-error>
-  </mat-form-field>
+      <h2>Client Details</h2>
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Client Name</mat-label>
+          <input id="client" matInput formControlName="client" required>
+          <mat-error *ngIf="invoiceForm.get('client')?.hasError('required')">Client Name is required.</mat-error>
+        </mat-form-field>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>City</mat-label>
-    <input id="companyCity" matInput formControlName="companyCity" required>
-    <mat-error *ngIf="invoiceForm.get('companyCity')?.hasError('required')">Address is required.</mat-error>
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Client PIN</mat-label>
+          <input id="clientPin" matInput formControlName="clientPin" required>
+        </mat-form-field>
+      </div>
 
-  <br>
+      <div class="">
+        <mat-form-field appearance="fill" class="mat-30">
+          <mat-label>Client Email</mat-label>
+          <input id="clientEmail" matInput formControlName="clientEmail">
+        </mat-form-field>
 
-  <!-- Customer/Client Form fields for invoice details -->
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Client Name</mat-label>
-    <input id="client" matInput formControlName="client" required>
-    <mat-error *ngIf="invoiceForm.get('client')?.hasError('required')">Client is required.</mat-error>
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="mat-30">
+          <mat-label>Address Line</mat-label>
+          <input id="clientAddress" matInput formControlName="clientAddress" required>
+          <mat-error *ngIf="invoiceForm.get('clientAddress')?.hasError('required')">Address is required.</mat-error>
+        </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="mat-30">
+          <mat-label>City</mat-label>
+          <input id="clientCity" matInput formControlName="clientCity" required>
+          <mat-error *ngIf="invoiceForm.get('clientCity')?.hasError('required')">City is required.</mat-error>
+        </mat-form-field>
+      </div>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Client PIN</mat-label>
-    <input id="clientPin" matInput formControlName="clientPin" required>
-  </mat-form-field>
+      <h2>Invoice Details</h2>
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Invoice Number</mat-label>
+          <input id="invoiceNumber" matInput formControlName="invoiceNumber" value="INV-0110" required>
+          <mat-error *ngIf="invoiceForm.get('invoiceNumber')?.hasError('required')">Invoice Number is required.</mat-error>
+        </mat-form-field>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Client Email</mat-label>
-    <input id="clientEmail" matInput formControlName="clientEmail">
-  </mat-form-field>
+        <!-- <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Invoice Date</mat-label>
+          <input id="date" matInput formControlName="date" type="date" required>
+          <mat-error *ngIf="invoiceForm.get('date')?.hasError('required')">Date is required.</mat-error>
+        </mat-form-field> -->
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Address Line</mat-label>
-    <input id="clientAddress" matInput formControlName="clientAddress" required>
-    <mat-error *ngIf="invoiceForm.get('clientAddress')?.hasError('required')">Address is required.</mat-error>
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Invoice Date</mat-label>
+          <input id="date" matInput formControlName="date" type="date" required>
+          <mat-error *ngIf="invoiceForm.get('date')?.hasError('required')">Date is required.</mat-error>
+        </mat-form-field>
+      </div>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>City</mat-label>
-    <input id="clientCity" matInput formControlName="clientCity" required>
-    <mat-error *ngIf="invoiceForm.get('clientCity')?.hasError('required')">Address is required.</mat-error>
-  </mat-form-field>
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Due Date</mat-label>
+          <input id="dueDate" matInput formControlName="dueDate" type="date" required>
+          <mat-error *ngIf="invoiceForm.get('dueDate')?.hasError('required')">Date is required.</mat-error>
+        </mat-form-field>
 
-  <br>
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Currency</mat-label>
+          <mat-select id="currency" formControlName="currency" required>
+            <mat-option *ngFor="let type of currencyList" [value]="type">{{type}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="invoiceForm.get('currency')?.hasError('required')">Currency is required.</mat-error>
+        </mat-form-field>
+      </div>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Invoice Number</mat-label>
-    <input id="invoiceNumber" matInput formControlName="invoiceNumber" value="INV-0110" required>
-    <mat-error *ngIf="invoiceForm.get('invoiceNumber')?.hasError('required')">Invoice Number is required.</mat-error>
-  </mat-form-field>
+      <div formArrayName="items">
+        <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
+          <mat-form-field appearance="fill" class="mat-25">
+            <mat-label>Description</mat-label>
+            <input id="description-{{i}}" matInput formControlName="description" required>
+            <mat-error *ngIf="item.get('description')?.hasError('required')">Description is required.</mat-error>
+          </mat-form-field>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Date</mat-label>
-    <input id="date" matInput formControlName="date" type="date" required>
-    <mat-error *ngIf="invoiceForm.get('date')?.hasError('required')">Date is required.</mat-error>
-  </mat-form-field>
+          <mat-form-field appearance="fill" class="mat-20">
+            <mat-label>Quantity</mat-label>
+            <input id="quantity-{{i}}" matInput formControlName="quantity" type="number" required>
+            <mat-error *ngIf="item.get('quantity')?.hasError('required')">Quantity is required.</mat-error>
+          </mat-form-field>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Due Date</mat-label>
-    <input id="dueDate" matInput formControlName="dueDate" type="date" required>
-    <mat-error *ngIf="invoiceForm.get('dueDate')?.hasError('required')">Date is required.</mat-error>
-  </mat-form-field>
+          <mat-form-field appearance="fill" class="mat-20">
+            <mat-label>VAT Rate (%)</mat-label>
+            <input id="vatRate-{{i}}" matInput formControlName="vatRate" type="number" value="Skip">
+          </mat-form-field>
 
-  <mat-form-field appearance="fill" class="mat-25">
-    <mat-label>Currency</mat-label>
-    <mat-select id="currency" formControlName="currency" required>
-      <mat-option *ngFor="let type of currencyList" [value]="type">{{type}}</mat-option>
+          <mat-form-field appearance="fill" class="mat-25">
+            <mat-label>Price</mat-label>
+            <input id="price-{{i}}" matInput formControlName="price" type="number" required>
+            <mat-error *ngIf="item.get('price')?.hasError('required')">Price is required.</mat-error>
+          </mat-form-field>
 
-      <!-- <mat-option value="USD">USD</mat-option>
-      <mat-option value="EUR">EUR</mat-option> -->
-      <!-- Add more currencies as needed -->
-    </mat-select>
-    <mat-error *ngIf="invoiceForm.get('currency')?.hasError('required')">Currency is required.</mat-error>
-  </mat-form-field>
+          <mat-form-field appearance="fill" class="mat-25">
+            <mat-label>Total Price</mat-label>
+            <input id="totalPrice-{{i}}" matInput formControlName="totalPrice" type="number" required>
+            <mat-error *ngIf="item.get('totalPrice')?.hasError('required')">Total Price is required.</mat-error>
+          </mat-form-field>
 
-  <div formArrayName="items">
-    <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
-      <mat-form-field appearance="fill">
-        <mat-label>Description</mat-label>
-        <input id="description-{{i}}" matInput formControlName="description" required>
-        <mat-error *ngIf="item.get('description')?.hasError('required')">Description is required.</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="mat-25">
-        <mat-label>Quantity</mat-label>
-        <input id="quantity-{{i}}" matInput formControlName="quantity" type="number" required>
-        <mat-error *ngIf="item.get('quantity')?.hasError('required')">Quantity is required.</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="mat-25">
-        <mat-label>VAT Rate (%)</mat-label>
-        <input id="vatRate-{{i}}" matInput formControlName="vatRate" type="number" value="Skip">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="mat-25">
-        <mat-label>Price</mat-label>
-        <input id="price-{{i}}" matInput formControlName="price" type="number" required>
-        <mat-error *ngIf="item.get('price')?.hasError('required')">Price is required.</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="mat-25">
-        <mat-label>Total Price</mat-label>
-        <input id="totalPrice-{{i}}" matInput formControlName="totalPrice" type="number" required>
-        <mat-error *ngIf="item.get('totalPrice')?.hasError('required')">Price is required.</mat-error>
-      </mat-form-field>
-
-      <button mat-button type="button" (click)="removeItem(i)">Remove</button>
-    </div>
-  </div>
-  <button mat-button type="button" (click)="addItem()">Add Item</button>
-
-  <mat-card-footer style="margin:2%;text-align: right;">
-    <div style="margin:2%;text-align: right;">
-      <button mat-raised-button color="primary" type="submit">Generate PDF</button>
-      <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button>
-    </div>
-  </mat-card-footer>
+          <button mat-button type="button" (click)="removeItem(i)">(-)</button>
+        </div>
+      </div>
+      
+      <button mat-button type="button" (click)="addItem()">Add Item</button>
+    </mat-card-content>
+    
+    <mat-card-footer>
+      <div class="footer-buttons">
+        <button mat-raised-button color="primary" type="submit">Generate PDF</button>
+        <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button>
+      </div>
+    </mat-card-footer>
+  </mat-card>
 </form>
+
 
 <div *ngIf="emailFormVisible">
   <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">

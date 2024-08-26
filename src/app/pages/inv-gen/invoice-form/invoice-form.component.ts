@@ -26,19 +26,19 @@ export class InvoiceFormComponent {
     
   ) {
     this.invoiceForm = this.fb.group({
-      company: ['', Validators.required],
+      company: ['Company A', Validators.required],
       companyPin: ['', Validators.required],
-      companyEmail: ['', Validators.required],
+      companyEmail: ['company@info.com', Validators.required],
       companyAddress: ['', Validators.required],
-      companyCity: ['', Validators.required],
+      companyCity: ['Nairobi', Validators.required],
       
-      client: ['', Validators.required],
+      client: ['Customer A', Validators.required],
       clientPin:['', Validators.required],
-      clientEmail:['', Validators.required],
+      clientEmail:['client@info.com', Validators.required],
       clientAddress:['', Validators.required],
-      clientCity:['', Validators.required],
+      clientCity:['Kigali', Validators.required],
 
-      invoiceNumber: ['', Validators.required],
+      invoiceNumber: ['INV-00987', Validators.required],
       date: ['', Validators.required],
       dueDate:[''],
       currency: ['', Validators.required],
@@ -55,6 +55,7 @@ export class InvoiceFormComponent {
     emailjs.init('ypYUpgr1ICE-Dxnoe');  // Initialize EmailJS with your user ID
 
     this.setupValueChanges();
+    this.setupDateChanges(); // Setup the date change listener
   }
 
   get items(): FormArray {
@@ -177,6 +178,20 @@ export class InvoiceFormComponent {
   //     return total + (price);
   //   }, 0);
   // }
+
+  setupDateChanges() {
+    this.invoiceForm.get('date')?.valueChanges.subscribe(date => {
+      if (date) {
+        this.updateDueDate(new Date(date));
+      }
+    });
+  }
+
+  updateDueDate(invoiceDate: Date) {
+    const dueDate = new Date(invoiceDate);
+    dueDate.setDate(dueDate.getDate() + 30); // Add 30 days
+    this.invoiceForm.get('dueDate')?.setValue(dueDate.toISOString().split('T')[0], { emitEvent: false });
+  }
 
   async generatePDF() {
     const invoiceElement = document.getElementById('invoice');
