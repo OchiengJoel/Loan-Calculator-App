@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import emailjs from 'emailjs-com'; // Import EmailJS
 import html2pdf from 'html2pdf.js'; // Import html2pdf
 import { InvoiceFormValue } from 'src/app/interfaces/invoice-form-value';
 import { InvoiceItem } from 'src/app/interfaces/invoice-item';
+import { EmailModalComponent } from '../../email-modal/email-modal.component';
 
 @Component({
   selector: 'app-invoice-form',
@@ -11,6 +13,7 @@ import { InvoiceItem } from 'src/app/interfaces/invoice-item';
   styleUrls: ['./invoice-form.component.css']
 })
 export class InvoiceFormComponent {
+
 
   invoiceForm: FormGroup;
   emailFormVisible: boolean = false;
@@ -22,7 +25,8 @@ export class InvoiceFormComponent {
   currencyList = ["KES","USD","UGX", "TZS","EUR","ZAR","KWACHA","PESOS"]
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog
     
   ) {
     this.invoiceForm = this.fb.group({
@@ -44,6 +48,8 @@ export class InvoiceFormComponent {
       currency: ['', Validators.required],
 
       terms: ['Payment Is Due Within 15 Days', Validators.required],
+      bankName:['Gulf Bank', Validators.required],
+      bankNumber: ['01234509876', Validators.required],
 
       items: this.fb.array([this.createItem()])
     });
@@ -279,5 +285,11 @@ export class InvoiceFormComponent {
     reader.onerror = (error) => {
       console.error('Error reading PDF Blob:', error);
     };
+  }
+
+  openEmailModal() {
+    this.dialog.open(EmailModalComponent, {
+      width: '400px'
+    })
   }
 }

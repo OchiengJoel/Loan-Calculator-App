@@ -136,17 +136,45 @@
             <mat-error *ngIf="item.get('totalPrice')?.hasError('required')">Total Price is required.</mat-error>
           </mat-form-field>
 
-          <button mat-button type="button" (click)="removeItem(i)">(-)</button>
+          <!-- <button mat-button type="button" (click)="removeItem(i)">(-)</button> -->
+
+          <button mat-mini-fab color="warn" aria-label="Example icon button with a delete icon" (click)="removeItem(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </div>
       
-      <button mat-button type="button" (click)="addItem()">Add Item</button>
+      <button mat-button color="" type="button" (click)="addItem()">Add Item</button>
+      <br><br><br>
+      
+
+      <h3><b>Invoice Preference</b></h3>
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Terms & Conditions</mat-label>
+          <textarea matInput id="terms" matInput formControlName="terms" required></textarea>
+          <!-- <input id="terms" matInput formControlName="terms" type="text" required> -->
+          <mat-error *ngIf="invoiceForm.get('terms')?.hasError('required')">Terms & Conditions is required.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Bank Name</mat-label>
+          <input id="bankName" matInput formControlName="bankName" type="text" required>
+          <mat-error *ngIf="invoiceForm.get('bankName')?.hasError('required')">Bank details is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>A/c Number</mat-label>
+          <input id="bankNumber" matInput formControlName="bankNumber" type="text" required>
+          <mat-error *ngIf="invoiceForm.get('bankNumber')?.hasError('required')">Bank Account Number is required.</mat-error>
+        </mat-form-field>
+      </div>
     </mat-card-content>
     
     <mat-card-footer>
       <div class="footer-buttons">
         <button mat-raised-button color="primary" type="submit">Generate PDF</button>
-        <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button>
+        <!-- <button mat-raised-button color="primary" (click)="emailFormVisible = !emailFormVisible">Email</button> -->
+        <button mat-raised-button color="accent" (click)="openEmailModal()">Forward To Email</button>
       </div>
     </mat-card-footer>
   </mat-card>
@@ -287,11 +315,10 @@
   </div>
 
   <div style="margin-top: 40px;">
-    <p style="margin: 0;"><b>Terms & Conditions</b></p>
+    <h3 style="margin: 0;"><b>Terms & Conditions</b></h3>
     <p style="margin: 0;">{{invoiceForm.get('terms')?.value}}</p>
-    <p style="margin: 0;">Name of Bank</p>
-    <p style="margin: 0;">Account number: 1234567890</p>
-    <p style="margin: 0;">Routing: 098765432</p>
+    <p style="margin: 0;"><b>Bank:</b> {{invoiceForm.get('bankName')?.value}}</p>
+    <p style="margin: 0;"><b>Account number:</b> {{invoiceForm.get('bankNumber')?.value}}</p>
   </div>
 
   <div style="margin-top: 40px;">
