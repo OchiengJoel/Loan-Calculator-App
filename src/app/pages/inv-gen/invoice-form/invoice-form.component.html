@@ -234,7 +234,7 @@
 
   <div style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2 style="color: #3F51B5; padding: 8px; margin: 0;"><b>{{invoiceForm.get('company')?.value}}</b></h2>
+      <h2 style="color: #3F51B5; padding: 4px; margin: 0;"><b>{{invoiceForm.get('company')?.value}}</b></h2>
       <p>
         <b>PIN:</b>{{invoiceForm.get('companyPin')?.value}}<br>
         <b>Email:</b> {{invoiceForm.get('companyEmail')?.value}}<br>
@@ -271,6 +271,7 @@
       <p><b>Invoice Date:</b> {{ invoiceForm.get('date')?.value }}</p>
       <p><b>P.O.#:</b> 2412/2024</p>
       <p><b>Due Date:</b> {{invoiceForm.get('dueDate')?.value}}</p>
+      <p><b>Currency:</b> <b>{{invoiceForm.get('currency')?.value}}</b></p>
     </div>
   </div>
 
@@ -287,10 +288,10 @@
       <tr *ngFor="let item of items.controls">
         <td style="border: 1px solid #dddddd; padding: 8px; text-align: center;">{{ item.get('quantity')?.value }}</td>
         <td style="border: 1px solid #dddddd; padding: 8px;">{{ item.get('description')?.value }}</td>
-        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;"> {{ item.get('price')?.value |
-          currency:currencyCode }}</td>
-        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;"> {{ item.get('totalPrice')?.value |
-          currency:currencyCode }}</td>
+        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;"> {{ item.get('price')?.value}}</td>
+        <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;"> {{ item.get('totalPrice')?.value}}</td>
+        <!-- <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;"> {{ item.get('totalPrice')?.value |
+          currency:currencyCode }}</td> -->
       </tr>
     </tbody>
   </table>
@@ -298,18 +299,18 @@
   <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
     <table style="border-collapse: collapse;">
       <tr>
-        <td style="padding: 8px;">Subtotal</td>
+        <td style="padding: 8px;"><b>Sub Total:</b></td>
         <!-- <td style="padding: 8px; text-align: right;">{{ totalCost - totalCost * 0.05 | currency:currencyCode }}</td> -->
-        <td style="padding: 8px; text-align: right;">{{ calculateSubtotal() | currency:currencyCode }}</td>
+        <td style="padding: 8px; text-align: right;">{{ calculateSubtotal()}}</td>
       </tr>
       <tr>
-        <td style="padding: 8px;">Sales Tax</td>
+        <td style="padding: 8px;"><b>Sales Tax:</b></td>
         <!-- <td style="padding: 8px; text-align: right;">{{ totalCost * 0.05 | currency:currencyCode }}</td> -->
-        <td style="padding: 8px; text-align: right;"> {{ calculateVAT() | currency:currencyCode }}</td>
+        <td style="padding: 8px; text-align: right;"> {{ calculateVAT()}}</td>
       </tr>
-      <tr>
-        <td style="padding: 8px; font-weight: bold;">TOTAL</td>
-        <td style="padding: 8px; text-align: right; font-weight: bold;"> {{ totalCost | currency:currencyCode }}</td>
+      <tr style="background-color: deepskyblue;">
+        <td style="padding: 8px; font-weight: bold;">TOTAL:</td>
+        <td style="padding: 8px; text-align: right; font-weight: bold;"> {{ totalCost }}</td>
       </tr>
     </table>
   </div>

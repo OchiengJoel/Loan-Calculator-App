@@ -106,3 +106,9 @@ h2 {
 button {
   margin: 2.5px;
 }
+
+.double-underline {
+  text-decoration: underline;
+  text-decoration-style: double;
+  margin-top: 4px;
+}
